@@ -35,17 +35,22 @@ export function tokenizeInput(input) {
         "doz",
     ];
 
+    const prepositions = ["of", "per", "in"];
+
     const adjectives = ["scant", "generous", "heaped"];
 
+    const findPrepositions = new RegExp(`\\b(${prepositions.join("|")})\\b`);
+    const sanitisedInput = input.replace(findPrepositions, "");
+
     const findDigits = new RegExp(/\d+/);
-    let quantity = input.match(findDigits);
+    let quantity = sanitisedInput.match(findDigits);
     quantity = quantity ? parseInt(quantity[0]) : quantity;
 
     const findNotDigits = new RegExp(/\D+/);
-    const ingredient = input.match(findNotDigits);
+    const ingredient = sanitisedInput.match(findNotDigits);
 
     const findUnit = new RegExp(`\\b(${units.join("|")})s?\\b`);
-    let unit = input.match(findUnit);
+    let unit = sanitisedInput.match(findUnit);
     if (unit) {
         unit = unit.reduce((a, b) => (a.length <= b.length ? a : b));
     }
