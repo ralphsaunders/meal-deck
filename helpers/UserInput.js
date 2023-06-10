@@ -36,11 +36,13 @@ export function tokenizeInput(input) {
     ];
 
     const prepositions = ["of", "per", "in"];
-
     const adjectives = ["scant", "generous", "heaped"];
 
-    const findPrepositions = new RegExp(`\\b(${prepositions.join("|")})\\b`);
-    const sanitisedInput = input.replace(findPrepositions, "");
+    const findPrepositionsAdjectives = new RegExp(
+        `\\b(${prepositions.join("|")}|${adjectives.join("|")})\\b`,
+        "g"
+    );
+    const sanitisedInput = input.replace(findPrepositionsAdjectives, "");
 
     const findDigits = new RegExp(/\d+/);
     let quantity = sanitisedInput.match(findDigits);

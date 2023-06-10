@@ -23,9 +23,16 @@ describe("User input helper", () => {
     });
 
     it("ignores prepositions", () => {
-        let terms = tokenizeInput("1 cup of brown sugar");
+        const terms = tokenizeInput("1 cup of brown sugar");
         expect(terms.quantity).toBe(1);
         expect(terms.unit).toBe("cup");
         expect(terms.ingredient).toBe("brown sugar");
+    });
+
+    it("ignores adjectives", () => {
+        const terms = tokenizeInput("2 heaped teaspoons of sugar");
+        expect(terms.quantity).toBe(2);
+        expect(terms.unit).toBe("teaspoon");
+        expect(terms.ingredient).toBe("sugar");
     });
 });
