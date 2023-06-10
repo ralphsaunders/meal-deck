@@ -42,9 +42,6 @@ function standardiseUnit(input) {
         case "kg":
             output = "kilogram";
             break;
-        case "-":
-            output = "pinch";
-            break;
         case "doz":
             output = "dozen";
             break;
@@ -83,7 +80,6 @@ export function tokenizeInput(input) {
         "kilogram",
         "kg",
         "pinch",
-        "-",
         "dash",
         "drop",
         "dozen",
@@ -106,7 +102,7 @@ export function tokenizeInput(input) {
     const findNotDigits = new RegExp(/\D+/);
     const ingredient = sanitisedInput.match(findNotDigits);
 
-    const findUnit = new RegExp(`\\b(${units.join("|")})s?\\b`);
+    const findUnit = new RegExp(`\\s(${units.join("|")})e?s?\\s`);
     let unit = sanitisedInput.match(findUnit);
     if (unit) {
         unit = unit.reduce((a, b) => (a.length <= b.length ? a : b));

@@ -6,6 +6,24 @@
         "ingredient": "water"
     },
     {
+        "input": "5 fl oz of milk",
+        "quantity": 5,
+        "unit": "fluid ounce",
+        "ingredient": "milk"
+    },
+    {
+        "input": "2 scant dashes of milk",
+        "quantity": 2,
+        "unit": "dash",
+        "ingredient": "milk"
+    },
+    {
+        "input": "7 # pork",
+        "quantity": 7,
+        "unit": "pound",
+        "ingredient": "pork"
+    },
+    {
         "input": "6 cups of water",
         "quantity": 6,
         "unit": "cup",
