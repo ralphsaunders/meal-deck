@@ -1,0 +1,14 @@
+[
+    {
+        "input": "1 c water",
+        "quantity": 1,
+        "unit": "cup",
+        "ingredient": "water"
+    },
+    {
+        "input": "6 cups of water",
+        "quantity": 6,
+        "unit": "cup",
+        "ingredient": "water"
+    }
+]

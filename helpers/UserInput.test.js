@@ -1,4 +1,5 @@
 import { tokenizeInput } from "./UserInput";
+import Fixture from "./UserInput.fixture.json";
 
 describe("User input helper", () => {
     it("tokenizes strings into terms", () => {
@@ -34,5 +35,14 @@ describe("User input helper", () => {
         expect(terms.quantity).toBe(2);
         expect(terms.unit).toBe("teaspoon");
         expect(terms.ingredient).toBe("sugar");
+    });
+
+    it("passes against these known cases", () => {
+        Fixture.forEach((testcase) => {
+            let terms = tokenizeInput(testcase.input);
+            expect(terms.quantity).toBe(testcase.quantity);
+            expect(terms.unit).toBe(testcase.unit);
+            expect(terms.ingredient).toBe(testcase.ingredient);
+        });
     });
 });

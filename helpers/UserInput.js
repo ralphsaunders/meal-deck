@@ -1,3 +1,58 @@
+function standardiseUnit(input) {
+    let output = input;
+
+    switch (input) {
+        case "tbsp":
+            output = "tablespoon";
+            break;
+        case "tsp":
+            output = "teaspoon";
+            break;
+        case "c":
+            output = "cup";
+            break;
+        case "fl oz":
+            output = "fluid ounce";
+            break;
+        case "pt":
+            output = "pint";
+            break;
+        case "qt":
+            output = "quart";
+            break;
+        case "gal":
+            output = "gallon";
+            break;
+        case "ml":
+            output = "milliliter";
+            break;
+        case "l":
+            output = "litre";
+            break;
+        case "oz":
+            output = "ounce";
+            break;
+        case "lb":
+        case "#":
+            output = "pound";
+            break;
+        case "g":
+            output = "gram";
+            break;
+        case "kg":
+            output = "kilogram";
+            break;
+        case "-":
+            output = "pinch";
+            break;
+        case "doz":
+            output = "dozen";
+            break;
+    }
+
+    return output;
+}
+
 export function tokenizeInput(input) {
     const units = [
         "tablespoon",
@@ -55,6 +110,7 @@ export function tokenizeInput(input) {
     let unit = sanitisedInput.match(findUnit);
     if (unit) {
         unit = unit.reduce((a, b) => (a.length <= b.length ? a : b));
+        unit = standardiseUnit(unit);
     }
 
     const output = {
