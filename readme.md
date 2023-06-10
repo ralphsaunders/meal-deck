@@ -8,6 +8,7 @@
 [Storage](https://react-native-async-storage.github.io/async-storage/docs/usage)
 
 ### Storage
+
 Use [async storage module](https://react-native-async-storage.github.io/async-storage/docs/usage) to persist data within the application.
 
 ### Typeahead/Smart input recognition
