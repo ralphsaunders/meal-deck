@@ -1,4 +1,4 @@
-function detectMeasure(string) {
+export function detectMeasure(string) {
     const measures = [
         'tablespoon',
         'teaspoon',
@@ -40,4 +40,6 @@ function detectMeasure(string) {
         'generous',
         'heaped'
     ];
+
+    return adjectives;
 }
