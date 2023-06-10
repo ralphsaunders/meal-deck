@@ -1,5 +1,5 @@
 export function tokenizeInput(input) {
-    const measures = [
+    const units = [
         "tablespoon",
         "teaspoon",
         "tbsp",
@@ -44,10 +44,16 @@ export function tokenizeInput(input) {
     const findNotDigits = new RegExp(/\D+/);
     const ingredient = input.match(findNotDigits);
 
+    const findUnit = new RegExp(`\\b(${units.join("|")})s?\\b`);
+    let unit = input.match(findUnit);
+    if (unit) {
+        unit = unit.reduce((a, b) => (a.length <= b.length ? a : b));
+    }
+
     const output = {
         quantity,
-        unit: null,
-        ingredient: ingredient[0].trim(),
+        unit,
+        ingredient: ingredient[0].replace(findUnit, "").trim(),
     };
 
     return output;

@@ -14,4 +14,11 @@ describe("User input helper", () => {
         expect(terms.unit).toBeFalsy();
         expect(terms.ingredient).toBe("hash browns");
     });
+
+    it("identifies units", () => {
+        const terms = tokenizeInput("3 cups all-purpose flour");
+        expect(terms.quantity).toBe(3);
+        expect(terms.unit).toBe("cup");
+        expect(terms.ingredient).toBe("all-purpose flour");
+    });
 });
