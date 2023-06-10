@@ -10,12 +10,12 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 const Tab = createBottomTabNavigator();
 
 export default function App() {
-  return (
-    <NavigationContainer>
-      <Tab.Navigator initialRouteName="Meals">
-        <Tab.Screen name="Meals" component={MealListScreen} />
-        <Tab.Screen name="Recipes" component={RecipeListScreen} />
-      </Tab.Navigator>
-    </NavigationContainer>
-  );
+    return (
+        <NavigationContainer>
+            <Tab.Navigator initialRouteName="Meals">
+                <Tab.Screen name="Meals" component={MealListScreen} />
+                <Tab.Screen name="Recipes" component={RecipeListScreen} />
+            </Tab.Navigator>
+        </NavigationContainer>
+    );
 }
