@@ -37,10 +37,17 @@ export function tokenizeInput(input) {
 
     const adjectives = ["scant", "generous", "heaped"];
 
+    const findDigits = new RegExp(/\d+/);
+    let quantity = input.match(findDigits);
+    quantity = quantity ? parseInt(quantity[0]) : quantity;
+
+    const findNotDigits = new RegExp(/\D+/);
+    const ingredient = input.match(findNotDigits);
+
     const output = {
-        quantity: null,
+        quantity,
         unit: null,
-        ingredient: input,
+        ingredient: ingredient[0].trim(),
     };
 
     return output;

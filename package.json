@@ -8,7 +8,7 @@
         "ios": "expo start --ios",
         "web": "expo start --web",
         "test": "jest",
-        "watch-tests": "jest --watch",
+        "watch-tests": "node --inspect-brk node_modules/.bin/jest --runInBand --watch",
         "prepare": "husky install"
     },
     "dependencies": {
