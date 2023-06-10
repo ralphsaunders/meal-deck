@@ -1,4 +1,4 @@
-export function detectMeasure(string) {
+export function tokenizeInput(input) {
     const measures = [
         "tablespoon",
         "teaspoon",
@@ -37,5 +37,11 @@ export function detectMeasure(string) {
 
     const adjectives = ["scant", "generous", "heaped"];
 
-    return adjectives;
+    const output = {
+        quantity: null,
+        unit: null,
+        ingredient: input,
+    };
+
+    return output;
 }
