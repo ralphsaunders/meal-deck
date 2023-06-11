@@ -1,5 +1,5 @@
 /**
- * @typedef {Object} TokenizedIngredient
+ * @typedef {object} TokenizedIngredient
  * @property {number} quantity - The quantity of the ingredient
  * @property {string} unit - The unit of measure
  * @property {string} ingredient - The ingredient itself
@@ -10,11 +10,10 @@
  *
  * Given user input, will identify quantities, units, and ingredients. E.G:
  *
- *   In: "2 heaped tsp of sugar"
- *   Out: { "quantity": 2, "unit": "teaspoon", "ingredient": "sugar" }
- *
+ * In: "2 heaped tsp of sugar"
+ * Out: { "quantity": 2, "unit": "teaspoon", "ingredient": "sugar" }
  * @param { string } input - a single ingredient line from a recipe
- * @returns { TokenizedIngredient }
+ * @returns { TokenizedIngredient } interpreted input
  */
 export function tokenizeInput(input) {
     const units = [
@@ -63,7 +62,7 @@ export function tokenizeInput(input) {
 
     const findDigits = new RegExp(/\d+/);
     let quantity = sanitisedInput.match(findDigits);
-    quantity = quantity ? parseInt(quantity[0]) : quantity;
+    quantity = quantity ? parseInt(quantity[0], 10) : quantity;
 
     const findNotDigits = new RegExp(/\D+/);
     const ingredient = sanitisedInput.match(findNotDigits);
@@ -89,9 +88,8 @@ export function tokenizeInput(input) {
  *
  * Users may use abbreviated units in their recipes. This fn maps abbreviations
  * to units so the system is able to interpret user input in a standard way.
- *
  * @param {string} unitInput - the unit as input by the user
- * @returns {string}
+ * @returns {string} standardised output for unitInput
  */
 function standardiseUnit(unitInput) {
     let output = unitInput;

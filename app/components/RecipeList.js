@@ -1,6 +1,10 @@
 import * as React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 
+/**
+ * Recipe List Screen
+ * @returns {string} <RecipeListScreen /> component
+ */
 export function RecipeListScreen() {
     return (
         <View style={styles.container}>

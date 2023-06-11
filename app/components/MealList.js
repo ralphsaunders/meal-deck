@@ -2,11 +2,11 @@ import * as React from "react";
 import {
     StyleSheet,
     Text,
-    View,
     SafeAreaView,
     SectionList,
     StatusBar,
 } from "react-native";
+
 import ListItem from "../globals/ListItem";
 
 const DATA = [
@@ -28,6 +28,10 @@ const DATA = [
     },
 ];
 
+/**
+ * Meal List Screen
+ * @returns {string} <MealListScreen /> component
+ */
 export function MealListScreen() {
     return (
         <SafeAreaView style={styles.container}>

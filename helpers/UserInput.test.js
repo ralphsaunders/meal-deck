@@ -39,7 +39,7 @@ describe("User input helper", () => {
 
     it("passes against known cases", () => {
         Fixture.forEach((testcase) => {
-            let terms = tokenizeInput(testcase.input);
+            const terms = tokenizeInput(testcase.input);
             expect(terms.quantity).toBe(testcase.quantity);
             expect(terms.unit).toBe(testcase.unit);
             expect(terms.ingredient).toBe(testcase.ingredient);
