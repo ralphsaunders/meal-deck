@@ -1,55 +1,3 @@
-function standardiseUnit(input) {
-    let output = input;
-
-    switch (input) {
-        case "tbsp":
-            output = "tablespoon";
-            break;
-        case "tsp":
-            output = "teaspoon";
-            break;
-        case "c":
-            output = "cup";
-            break;
-        case "fl oz":
-            output = "fluid ounce";
-            break;
-        case "pt":
-            output = "pint";
-            break;
-        case "qt":
-            output = "quart";
-            break;
-        case "gal":
-            output = "gallon";
-            break;
-        case "ml":
-            output = "milliliter";
-            break;
-        case "l":
-            output = "litre";
-            break;
-        case "oz":
-            output = "ounce";
-            break;
-        case "lb":
-        case "#":
-            output = "pound";
-            break;
-        case "g":
-            output = "gram";
-            break;
-        case "kg":
-            output = "kilogram";
-            break;
-        case "doz":
-            output = "dozen";
-            break;
-    }
-
-    return output;
-}
-
 export function tokenizeInput(input) {
     const units = [
         "tablespoon",
@@ -114,6 +62,67 @@ export function tokenizeInput(input) {
         unit,
         ingredient: ingredient[0].replace(findUnit, "").trim(),
     };
+
+    return output;
+}
+
+/**
+ * Standardise Unit
+ *
+ * Users may use abbreviated units in their recipes. This fn maps abbreviations
+ * to units so the system is able to interpret user input in a standard way.
+ *
+ * @param {string} unitInput - the unit as input by the user
+ * @returns {string}
+ */
+function standardiseUnit(unitInput) {
+    let output = unitInput;
+
+    switch (unitInput) {
+        case "tbsp":
+            output = "tablespoon";
+            break;
+        case "tsp":
+            output = "teaspoon";
+            break;
+        case "c":
+            output = "cup";
+            break;
+        case "fl oz":
+            output = "fluid ounce";
+            break;
+        case "pt":
+            output = "pint";
+            break;
+        case "qt":
+            output = "quart";
+            break;
+        case "gal":
+            output = "gallon";
+            break;
+        case "ml":
+            output = "milliliter";
+            break;
+        case "l":
+            output = "litre";
+            break;
+        case "oz":
+            output = "ounce";
+            break;
+        case "lb":
+        case "#":
+            output = "pound";
+            break;
+        case "g":
+            output = "gram";
+            break;
+        case "kg":
+            output = "kilogram";
+            break;
+        case "doz":
+            output = "dozen";
+            break;
+    }
 
     return output;
 }
