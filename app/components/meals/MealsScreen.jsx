@@ -7,7 +7,7 @@ import {
     StatusBar,
 } from "react-native";
 
-import ListItem from "../globals/ListItem";
+import ListItem from "../../globals/ListItem";
 
 const DATA = [
     {
