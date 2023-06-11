@@ -36,8 +36,7 @@ const ShoppingListsStack = () => {
 
 const CustomTabBarButton = ({ children, onPress }) => (
     <TouchableOpacity onPress={onPress} style={{ flex: 1 }}>
-        {children}
-        <Text style={{ textAlign: "center" }}>+</Text>
+        <Text style={{ textAlign: "center", fontSize: 40 }}>+</Text>
     </TouchableOpacity>
 );
 
@@ -82,6 +81,7 @@ export default function App() {
                         name="New Shop"
                         component={NewShopScreen}
                         options={{
+                            tabBarLabel: "",
                             tabBarButton: (props) => (
                                 <CustomTabBarButton
                                     {...props}
