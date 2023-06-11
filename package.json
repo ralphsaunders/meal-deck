@@ -10,7 +10,8 @@
         "test": "jest",
         "watch-tests": "node --inspect-brk node_modules/.bin/jest --runInBand --watch",
         "prepare": "husky install",
-        "lint": "eslint --fix --ext .js ."
+        "lint": "eslint --fix --ext .js .",
+        "prettier": "prettier --write  --ignore-unknown ./"
     },
     "dependencies": {
         "@react-native-async-storage/async-storage": "1.17.11",

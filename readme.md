@@ -2,7 +2,6 @@
 
 ## Scratch
 
-### Useful Links
 [Components](https://reactnative.dev/docs/components-and-apis)
 [Navigation](https://reactnavigation.org/docs/getting-started)
 [Storage](https://react-native-async-storage.github.io/async-storage/docs/usage)

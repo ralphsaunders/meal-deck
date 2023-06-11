@@ -32,7 +32,7 @@ const DATA = [
  * Meal List Screen
  * @returns {string} <MealListScreen /> component
  */
-export function MealListScreen() {
+export function MealsScreen() {
     return (
         <SafeAreaView style={styles.container}>
             <SectionList
