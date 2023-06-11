@@ -8,6 +8,8 @@ import { MealDetailScreen } from "./app/components/MealDetailScreen";
 import { ShoppingListsScreen } from "./app/components/ShoppingListsScreen";
 import { ShoppingListDetailScreen } from "./app/components/ShoppingListDetailScreen";
 import { NewShopScreen } from "./app/components/NewShopScreen";
+import NewShopActionSheet from "./app/components/NewShopActionSheet";
+import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -34,12 +36,6 @@ const ShoppingListsStack = () => {
     );
 };
 
-const CustomTabBarButton = ({ children, onPress }) => (
-    <TouchableOpacity onPress={onPress} style={{ flex: 1 }}>
-        <Text style={{ textAlign: "center", fontSize: 40 }}>+</Text>
-    </TouchableOpacity>
-);
-
 /**
  * Root App component
  * @returns {string} App component tree
@@ -55,64 +51,63 @@ export default function App() {
     };
 
     return (
-        <View style={styles.container}>
-            <NavigationContainer>
-                <Tab.Navigator
-                    initialRouteName="MealsTab"
-                    screenOptions={{
-                        headerShown: false,
-                    }}
-                >
-                    <Tab.Screen
-                        name="MealsTab"
-                        component={MealsStack}
-                        options={{
-                            tabBarLabel: "Meals",
+        <ActionSheetProvider>
+            <View style={styles.container}>
+                <NavigationContainer>
+                    <Tab.Navigator
+                        initialRouteName="MealsTab"
+                        screenOptions={{
+                            headerShown: false,
                         }}
-                    />
-                    <Tab.Screen
-                        name="ShoppingListTab"
-                        component={ShoppingListsStack}
-                        options={{
-                            tabBarLabel: "Shopping Lists",
-                        }}
-                    />
-                    <Tab.Screen
-                        name="New Shop"
-                        component={NewShopScreen}
-                        options={{
-                            tabBarLabel: "",
-                            tabBarButton: (props) => (
-                                <CustomTabBarButton
-                                    {...props}
-                                    onPress={handleNewShopPress}
-                                />
-                            ),
-                        }}
-                    />
-                </Tab.Navigator>
-                <Modal
-                    visible={newShopModalVisible}
-                    animationType="slide"
-                    presentationStyle="pageSheet"
-                >
-                    <View style={styles.modalContainer}>
-                        <View style={styles.modalContent}>
-                            <TouchableOpacity
-                                onPress={handleModalClose}
-                                style={styles.modalCloseButton}
-                            >
-                                <Text style={styles.modalCloseButtonText}>
-                                    Close
-                                </Text>
-                            </TouchableOpacity>
-                            <Text style={styles.modalTitle}>New Shop</Text>
-                            <Text>Modal content goes here</Text>
+                    >
+                        <Tab.Screen
+                            name="MealsTab"
+                            component={MealsStack}
+                            options={{
+                                tabBarLabel: "Meals",
+                            }}
+                        />
+                        <Tab.Screen
+                            name="ShoppingListTab"
+                            component={ShoppingListsStack}
+                            options={{
+                                tabBarLabel: "Shopping Lists",
+                            }}
+                        />
+                        <Tab.Screen
+                            name="New Shop"
+                            component={NewShopScreen}
+                            options={{
+                                tabBarLabel: "",
+                                tabBarButton: (props) => (
+                                    <NewShopActionSheet {...props} />
+                                ),
+                            }}
+                        />
+                    </Tab.Navigator>
+                    <Modal
+                        visible={newShopModalVisible}
+                        animationType="slide"
+                        presentationStyle="pageSheet"
+                    >
+                        <View style={styles.modalContainer}>
+                            <View style={styles.modalContent}>
+                                <TouchableOpacity
+                                    onPress={handleModalClose}
+                                    style={styles.modalCloseButton}
+                                >
+                                    <Text style={styles.modalCloseButtonText}>
+                                        Close
+                                    </Text>
+                                </TouchableOpacity>
+                                <Text style={styles.modalTitle}>New Shop</Text>
+                                <Text>Modal content goes here</Text>
+                            </View>
                         </View>
-                    </View>
-                </Modal>
-            </NavigationContainer>
-        </View>
+                    </Modal>
+                </NavigationContainer>
+            </View>
+        </ActionSheetProvider>
     );
 }
 
