@@ -1,9 +1,43 @@
-import React, { useState } from "react";
-import { TouchableOpacity, Text, Modal, View, StyleSheet } from "react-native";
+import React, { useState, useEffect, useRef } from "react";
+import {
+    TouchableOpacity,
+    Text,
+    Modal,
+    View,
+    StyleSheet,
+    TextInput,
+} from "react-native";
 
 export function AddMealModal({ visible = false, setVisible }) {
+    const [name, setName] = useState("Add Meal");
+    const [ingredients, setIngredients] = useState("");
+
+    const nameRef = useRef(null);
+    const ingredientsRef = useRef(null);
+
     const onClose = () => {
         setVisible(false);
+    };
+
+    const handleKeyPress = (e, currentFieldRef, nextFieldRef) => {
+        if (e.nativeEvent.key === "ArrowDown") {
+            if (nextFieldRef.current) {
+                nextFieldRef.current.focus();
+            } else {
+                Keyboard.dismiss();
+            }
+        } else if (e.nativeEvent.key === "ArrowUp") {
+            if (currentFieldRef.current) {
+                currentFieldRef.current.focus();
+            }
+        } else if (
+            e.nativeEvent.key === "Enter" ||
+            e.nativeEvent.key === "Done"
+        ) {
+            if (currentFieldRef.current) {
+                currentFieldRef.current.blur();
+            }
+        }
     };
 
     return (
@@ -20,8 +54,33 @@ export function AddMealModal({ visible = false, setVisible }) {
                     >
                         <Text style={styles.modalCloseButtonText}>Close</Text>
                     </TouchableOpacity>
-                    <Text style={styles.modalTitle}>Add Meal</Text>
+                    <Text style={styles.modalTitle}>{name}</Text>
                     <Text>Add a meal to your deck</Text>
+                    <TextInput
+                        value={name}
+                        onChangeText={setName}
+                        returnKeyType="next"
+                        clearTextOnFocus
+                        onSubmitEditing={() => ingredientsRef.current.focus()}
+                        onKeyPress={(e) =>
+                            handleKeyPress(e, nameRef, ingredientsRef)
+                        }
+                        ref={nameRef}
+                        autoFocus
+                    />
+
+                    <TextInput
+                        value={ingredients}
+                        placeholder="ingredients"
+                        numberOfLines={8}
+                        multiline
+                        onChangeText={setIngredients}
+                        onKeyPress={(e) =>
+                            handleKeyPress(e, ingredientsRef, nameRef)
+                        }
+                        ref={ingredientsRef}
+                        blurOnSubmit={false}
+                    />
                 </View>
             </View>
         </Modal>
