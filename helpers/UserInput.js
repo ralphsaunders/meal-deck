@@ -1,3 +1,21 @@
+/**
+ * @typedef {Object} TokenizedIngredient
+ * @property {number} quantity - The quantity of the ingredient
+ * @property {string} unit - The unit of measure
+ * @property {string} ingredient - The ingredient itself
+ */
+
+/**
+ * Tokenize Input
+ *
+ * Given user input, will identify quantities, units, and ingredients. E.G:
+ *
+ *   In: "2 heaped tsp of sugar"
+ *   Out: { "quantity": 2, "unit": "teaspoon", "ingredient": "sugar" }
+ *
+ * @param { string } input - a single ingredient line from a recipe
+ * @returns { TokenizedIngredient }
+ */
 export function tokenizeInput(input) {
     const units = [
         "tablespoon",
