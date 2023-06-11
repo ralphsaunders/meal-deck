@@ -13,11 +13,7 @@ const Stack = createNativeStackNavigator();
 
 const MealsStack = () => (
     <Stack.Navigator>
-        <Stack.Screen
-            name="MealList"
-            component={MealsScreen}
-            options={{ headerShown: false }}
-        />
+        <Stack.Screen name="Meals" component={MealsScreen} />
         <Stack.Screen name="MealDetail" component={MealDetailScreen} />
     </Stack.Navigator>
 );
@@ -26,9 +22,8 @@ const ShoppingListsStack = () => {
     return (
         <Stack.Navigator>
             <Stack.Screen
-                name="ShoppingLists"
+                name="Shopping Lists"
                 component={ShoppingListsScreen}
-                options={{ headerShown: false }}
             />
             <Stack.Screen
                 name="ShoppingListDetail"
@@ -45,11 +40,25 @@ const ShoppingListsStack = () => {
 export default function App() {
     return (
         <NavigationContainer>
-            <Tab.Navigator initialRouteName="Meals">
-                <Tab.Screen name="Meals" component={MealsStack} />
+            <Tab.Navigator
+                initialRouteName="MealsTab"
+                screenOptions={{
+                    headerShown: false,
+                }}
+            >
                 <Tab.Screen
-                    name="Shopping List"
+                    name="MealsTab"
+                    component={MealsStack}
+                    options={{
+                        tabBarLabel: "Meals",
+                    }}
+                />
+                <Tab.Screen
+                    name="ShoppingListTab"
                     component={ShoppingListsStack}
+                    options={{
+                        tabBarLabel: "Shopping Lists",
+                    }}
                 />
             </Tab.Navigator>
         </NavigationContainer>
