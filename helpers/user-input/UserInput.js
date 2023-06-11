@@ -1,3 +1,5 @@
+import { units, prepositions, adjectives } from "./supported-tokens";
+
 /**
  * @typedef {object} TokenizedIngredient
  * @property {number} quantity - The quantity of the ingredient
@@ -16,44 +18,6 @@
  * @returns { TokenizedIngredient } interpreted input
  */
 export function tokenizeInput(input) {
-    const units = [
-        "tablespoon",
-        "teaspoon",
-        "tbsp",
-        "tsp",
-        "cup",
-        "c",
-        "fluid ounce",
-        "fl oz",
-        "pint",
-        "pt",
-        "quart",
-        "qt",
-        "gallon",
-        "gal",
-        "milliliter",
-        "ml",
-        "liter",
-        "l",
-        "ounce",
-        "oz",
-        "pound",
-        "lb",
-        "#",
-        "gram",
-        "g",
-        "kilogram",
-        "kg",
-        "pinch",
-        "dash",
-        "drop",
-        "dozen",
-        "doz",
-    ];
-
-    const prepositions = ["of", "per", "in"];
-    const adjectives = ["scant", "generous", "heaped"];
-
     const findPrepositionsAdjectives = new RegExp(
         `\\b(${prepositions.join("|")}|${adjectives.join("|")})\\b`,
         "g"
