@@ -28,5 +28,17 @@
         "quantity": 6,
         "unit": "cup",
         "ingredient": "water"
+    },
+    {
+        "input": "400g strawberries",
+        "quantity": 400,
+        "unit": "gram",
+        "ingredient": "strawberries"
+    },
+    {
+        "input": "1 tin chopped tomatoes",
+        "quantity": 1,
+        "unit": null,
+        "ingredient": "tin chopped tomatoes"
     }
 ]

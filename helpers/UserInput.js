@@ -102,7 +102,7 @@ export function tokenizeInput(input) {
     const findNotDigits = new RegExp(/\D+/);
     const ingredient = sanitisedInput.match(findNotDigits);
 
-    const findUnit = new RegExp(`\\s(${units.join("|")})e?s?\\s`);
+    const findUnit = new RegExp(`(${units.join("|")})e?s?\\s`);
     let unit = sanitisedInput.match(findUnit);
     if (unit) {
         unit = unit.reduce((a, b) => (a.length <= b.length ? a : b));
