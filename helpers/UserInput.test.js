@@ -37,7 +37,7 @@ describe("User input helper", () => {
         expect(terms.ingredient).toBe("sugar");
     });
 
-    it("passes against these known cases", () => {
+    it("passes against known cases", () => {
         Fixture.forEach((testcase) => {
             let terms = tokenizeInput(testcase.input);
             expect(terms.quantity).toBe(testcase.quantity);

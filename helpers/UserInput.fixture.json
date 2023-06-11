@@ -40,5 +40,11 @@
         "quantity": 1,
         "unit": null,
         "ingredient": "tin chopped tomatoes"
+    },
+    {
+        "input": "5kg of hops",
+        "quantity": 5,
+        "unit": "kilogram",
+        "ingredient": "hops"
     }
 ]
