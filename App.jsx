@@ -7,9 +7,12 @@ import { MealsScreen } from "./app/components/MealsScreen";
 import { MealDetailScreen } from "./app/components/MealDetailScreen";
 import { ShoppingListsScreen } from "./app/components/ShoppingListsScreen";
 import { ShoppingListDetailScreen } from "./app/components/ShoppingListDetailScreen";
-import { NewShopScreen } from "./app/components/NewShopScreen";
-import NewShopActionSheet from "./app/components/NewShopActionSheet";
+import { NewShopScreen } from "./app/components/new-shop/NewShopScreen";
+import NewShopActionSheet from "./app/components/new-shop/NewShopActionSheet";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
+
+import { ManualShopModal } from "./app/components/new-shop/ManualShopModal";
+import { ShuffleShopModal } from "./app/components/new-shop/ShuffleShopModal";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -41,13 +44,20 @@ const ShoppingListsStack = () => {
  * @returns {string} App component tree
  */
 export default function App() {
-    const [newShopModalVisible, setNewShopModalVisible] = useState(false);
+    const [manualShopModalVisible, setManualShopModalVisible] = useState(false);
+    const [shuffleShopModalVisible, setShuffleShopModalVisible] =
+        useState(false);
 
-    const handleNewShopPress = () => {
-        setNewShopModalVisible(true);
-    };
-    const handleModalClose = () => {
-        setNewShopModalVisible(false);
+    const onNewShopAction = (decision) => {
+        switch (decision) {
+            case "shuffle":
+                setShuffleShopModalVisible(true);
+                break;
+            case "manual":
+                setManualShopModalVisible(true);
+                console.log(decision);
+                break;
+        }
     };
 
     return (
@@ -80,32 +90,22 @@ export default function App() {
                             options={{
                                 tabBarLabel: "",
                                 tabBarButton: (props) => (
-                                    <NewShopActionSheet {...props} />
+                                    <NewShopActionSheet
+                                        onAction={onNewShopAction}
+                                    />
                                 ),
                             }}
                         />
                     </Tab.Navigator>
-                    <Modal
-                        visible={newShopModalVisible}
-                        animationType="slide"
-                        presentationStyle="pageSheet"
-                    >
-                        <View style={styles.modalContainer}>
-                            <View style={styles.modalContent}>
-                                <TouchableOpacity
-                                    onPress={handleModalClose}
-                                    style={styles.modalCloseButton}
-                                >
-                                    <Text style={styles.modalCloseButtonText}>
-                                        Close
-                                    </Text>
-                                </TouchableOpacity>
-                                <Text style={styles.modalTitle}>New Shop</Text>
-                                <Text>Modal content goes here</Text>
-                            </View>
-                        </View>
-                    </Modal>
                 </NavigationContainer>
+                <ManualShopModal
+                    visible={manualShopModalVisible}
+                    setVisible={setManualShopModalVisible}
+                />
+                <ShuffleShopModal
+                    visible={shuffleShopModalVisible}
+                    setVisible={setShuffleShopModalVisible}
+                />
             </View>
         </ActionSheetProvider>
     );

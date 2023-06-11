@@ -2,7 +2,7 @@ import React from "react";
 import { TouchableOpacity, Text } from "react-native";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 
-export default function NewShopActionSheet() {
+export default function NewShopActionSheet({ onAction }) {
     const { showActionSheetWithOptions } = useActionSheet();
 
     const handlePress = () => {
@@ -15,14 +15,18 @@ export default function NewShopActionSheet() {
                 cancelButtonIndex,
             },
             (buttonIndex) => {
-                // Handle button press
-                if (buttonIndex === 0) {
-                    console.log("Shuffle Shop");
+                let decision;
+
+                switch (buttonIndex) {
+                    case 0:
+                        decision = "shuffle";
+                        break;
+                    case 1:
+                        decision = "manual";
+                        break;
                 }
 
-                if (buttonIndex === 1) {
-                    console.log("Manual Shop");
-                }
+                onAction(decision);
             }
         );
     };
