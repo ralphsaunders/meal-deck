@@ -6,6 +6,12 @@ import {
     View,
     StyleSheet,
     TextInput,
+    Keyboard,
+    ScrollView,
+    Button,
+    Platform,
+    TouchableWithoutFeedback,
+    KeyboardAvoidingView,
 } from "react-native";
 
 export function AddMealModal({ visible = false, setVisible }) {
@@ -40,54 +46,89 @@ export function AddMealModal({ visible = false, setVisible }) {
         }
     };
 
+    const ingredientsPlaceholder = [
+        "Onions",
+        "Tomatoes",
+        "Garlic",
+        "Red Pepper",
+        "Green Peppers",
+        "Fresh Coriander",
+    ].join("\n");
+
     return (
         <Modal
             visible={visible}
             animationType="slide"
             presentationStyle="pageSheet"
         >
-            <View style={styles.modalContainer}>
-                <View style={styles.modalContent}>
-                    <TouchableOpacity
-                        onPress={onClose}
-                        style={styles.modalCloseButton}
-                    >
-                        <Text style={styles.modalCloseButtonText}>Close</Text>
-                    </TouchableOpacity>
-                    <Text style={styles.modalTitle}>{name}</Text>
-                    <Text>Add a meal to your deck</Text>
-                    <TextInput
-                        value={name}
-                        onChangeText={setName}
-                        returnKeyType="next"
-                        clearTextOnFocus
-                        onSubmitEditing={() => ingredientsRef.current.focus()}
-                        onKeyPress={(e) =>
-                            handleKeyPress(e, nameRef, ingredientsRef)
-                        }
-                        ref={nameRef}
-                        autoFocus
-                    />
+            <KeyboardAvoidingView
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+                style={styles.container}
+            >
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    <ScrollView style={styles.modalContainer}>
+                        <View style={styles.modalContent}>
+                            <TouchableOpacity
+                                onPress={onClose}
+                                style={styles.modalCloseButton}
+                            >
+                                <Text style={styles.modalCloseButtonText}>
+                                    Close
+                                </Text>
+                            </TouchableOpacity>
 
-                    <TextInput
-                        value={ingredients}
-                        placeholder="ingredients"
-                        numberOfLines={8}
-                        multiline
-                        onChangeText={setIngredients}
-                        onKeyPress={(e) =>
-                            handleKeyPress(e, ingredientsRef, nameRef)
-                        }
-                        ref={ingredientsRef}
-                        blurOnSubmit={false}
-                    />
-                </View>
-            </View>
+                            <TouchableOpacity
+                                onPress={() => Keyboard.dismiss()}
+                                style={styles.modalDoneButton}
+                            >
+                                <Text style={styles.modalCloseButtonText}>
+                                    Save
+                                </Text>
+                            </TouchableOpacity>
+
+                            <Text style={styles.modalTitle}>{name}</Text>
+
+                            <Text>Name:</Text>
+                            <TextInput
+                                value={name}
+                                onChangeText={setName}
+                                returnKeyType="next"
+                                clearTextOnFocus
+                                inputMode="text"
+                                placeholder="Enter a name"
+                                onSubmitEditing={() =>
+                                    ingredientsRef.current.focus()
+                                }
+                                onKeyPress={(e) =>
+                                    handleKeyPress(e, nameRef, ingredientsRef)
+                                }
+                                ref={nameRef}
+                                autoFocus
+                            />
+
+                            <TextInput
+                                value={ingredients}
+                                numberOfLines={8}
+                                placeholder={ingredientsPlaceholder}
+                                ref={ingredientsRef}
+                                onChangeText={setIngredients}
+                                keyboardType="default"
+                                multiline={true}
+                                blurOnSubmit={false}
+                                style={styles.ingredientInput}
+                            />
+                        </View>
+                    </ScrollView>
+                </TouchableWithoutFeedback>
+            </KeyboardAvoidingView>
         </Modal>
     );
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
     modalContent: {
         backgroundColor: "white",
         borderTopLeftRadius: 10,
@@ -101,6 +142,12 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         marginBottom: 10,
     },
+    modalDoneButton: {
+        alignSelf: "flex-end",
+        paddingVertical: 8,
+        paddingHorizontal: 0,
+        marginBottom: 10,
+    },
     modalCloseButton: {
         alignSelf: "flex-start",
         paddingVertical: 8,
@@ -110,5 +157,9 @@ const styles = StyleSheet.create({
     modalCloseButtonText: {
         fontSize: 16,
         color: "#007AFF", // iOS blue color
+    },
+    ingredientInput: {
+        borderWidth: 3,
+        borderColor: "#000",
     },
 });
