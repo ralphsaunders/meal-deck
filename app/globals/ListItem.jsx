@@ -1,6 +1,8 @@
+import React from "react";
 import PropTypes from "prop-types";
-import * as React from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { TouchableOpacity, Text, View, StyleSheet } from "react-native";
+import { deleteMeal } from "../state/reducers/mealReducer";
+import { useDispatch } from "react-redux";
 
 /**
  *
@@ -8,16 +10,16 @@ import { Text, View, StyleSheet } from "react-native";
  * @param {string} props.item ListItem text
  * @returns {string} ListItem component
  */
-export default function ListItem({ item }) {
+const ListItem = ({ item }) => {
     return (
         <View style={styles.item}>
-            <Text style={styles.title}>{item}</Text>
+            <Text style={styles.title}>{item.name}</Text>
         </View>
     );
-}
+};
 
 ListItem.propTypes = {
-    item: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
 };
 
 const styles = StyleSheet.create({
@@ -30,3 +32,5 @@ const styles = StyleSheet.create({
         fontSize: 24,
     },
 });
+
+export default ListItem;

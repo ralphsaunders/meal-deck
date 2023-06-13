@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+import store, { persistor } from "./app/state/persistor";
 import {
     TouchableOpacity,
     Text,
@@ -10,7 +13,7 @@ import {
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
-import { MealsScreen } from "./app/components/meals/MealsScreen";
+import MealsScreen from "./app/components/meals/MealsScreen";
 import { MealDetailScreen } from "./app/components/meals/MealDetailScreen";
 import { ShoppingListsScreen } from "./app/components/ShoppingListsScreen";
 import { ShoppingListDetailScreen } from "./app/components/ShoppingListDetailScreen";
@@ -94,55 +97,59 @@ export default function App() {
     };
 
     return (
-        <ActionSheetProvider>
-            <View style={styles.container}>
-                <NavigationContainer>
-                    <OverflowMenuProvider>
-                        <Tab.Navigator
-                            initialRouteName="MealsTab"
-                            screenOptions={{
-                                headerShown: false,
-                            }}
-                        >
-                            <Tab.Screen
-                                name="MealsTab"
-                                component={MealsStack}
-                                options={{
-                                    tabBarLabel: "Meals",
-                                }}
-                            />
-                            <Tab.Screen
-                                name="ShoppingListTab"
-                                component={ShoppingListsStack}
-                                options={{
-                                    tabBarLabel: "Shopping Lists",
-                                }}
-                            />
-                            <Tab.Screen
-                                name="New Shop"
-                                component={NewShopScreen}
-                                options={{
-                                    tabBarLabel: "",
-                                    tabBarButton: (props) => (
-                                        <NewShopActionSheet
-                                            onAction={onNewShopAction}
-                                        />
-                                    ),
-                                }}
-                            />
-                        </Tab.Navigator>
-                    </OverflowMenuProvider>
-                </NavigationContainer>
-                <ManualShopModal
-                    visible={manualShopModalVisible}
-                    setVisible={setManualShopModalVisible}
-                />
-                <ShuffleShopModal
-                    visible={shuffleShopModalVisible}
-                    setVisible={setShuffleShopModalVisible}
-                />
-            </View>
-        </ActionSheetProvider>
+        <Provider store={store}>
+            <PersistGate loading={null} persistor={persistor}>
+                <ActionSheetProvider>
+                    <View style={styles.container}>
+                        <NavigationContainer>
+                            <OverflowMenuProvider>
+                                <Tab.Navigator
+                                    initialRouteName="MealsTab"
+                                    screenOptions={{
+                                        headerShown: false,
+                                    }}
+                                >
+                                    <Tab.Screen
+                                        name="MealsTab"
+                                        component={MealsStack}
+                                        options={{
+                                            tabBarLabel: "Meals",
+                                        }}
+                                    />
+                                    <Tab.Screen
+                                        name="ShoppingListTab"
+                                        component={ShoppingListsStack}
+                                        options={{
+                                            tabBarLabel: "Shopping Lists",
+                                        }}
+                                    />
+                                    <Tab.Screen
+                                        name="New Shop"
+                                        component={NewShopScreen}
+                                        options={{
+                                            tabBarLabel: "",
+                                            tabBarButton: (props) => (
+                                                <NewShopActionSheet
+                                                    onAction={onNewShopAction}
+                                                />
+                                            ),
+                                        }}
+                                    />
+                                </Tab.Navigator>
+                            </OverflowMenuProvider>
+                        </NavigationContainer>
+                        <ManualShopModal
+                            visible={manualShopModalVisible}
+                            setVisible={setManualShopModalVisible}
+                        />
+                        <ShuffleShopModal
+                            visible={shuffleShopModalVisible}
+                            setVisible={setShuffleShopModalVisible}
+                        />
+                    </View>
+                </ActionSheetProvider>
+            </PersistGate>
+        </Provider>
     );
 }
 

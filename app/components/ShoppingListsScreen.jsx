@@ -12,7 +12,7 @@ import ListItem from "../globals/ListItem";
 
 const DATA = [
     {
-        title: "11 June",
+        name: "11 June",
         meals: [
             "Chicken Tacos w/ Slaw",
             "Spag bol",
@@ -45,10 +45,10 @@ const DATA = [
         ],
     },
     {
-        title: "25 May",
+        name: "25 May",
     },
     {
-        title: "17 May",
+        name: "17 May",
     },
 ];
 

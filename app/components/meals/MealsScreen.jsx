@@ -3,45 +3,23 @@ import {
     StyleSheet,
     Text,
     SafeAreaView,
-    SectionList,
+    FlatList,
     StatusBar,
 } from "react-native";
-
+import { connect } from "react-redux";
 import ListItem from "../../globals/ListItem";
-
-const DATA = [
-    {
-        title: "Breakfast",
-        data: ["Bacon & Eggs", "Porridge"],
-    },
-    {
-        title: "Lunch",
-        data: [""],
-    },
-    {
-        title: "Dinner",
-        data: ["Filled Pasta", "Chicken Pie", "Steak & Mash"],
-    },
-    {
-        title: "Snacks",
-        data: ["Crisps", "Biscuits"],
-    },
-];
 
 /**
  * Meal List Screen
  * @returns {string} <MealListScreen /> component
  */
-export function MealsScreen() {
+function MealsScreen({ meals }) {
     return (
         <SafeAreaView style={styles.container}>
-            <SectionList
-                sections={DATA}
-                keyExtractor={(item, index) => item + index}
+            <FlatList
+                data={meals}
+                keyExtractor={(item) => item.id}
                 renderItem={ListItem}
-                renderSectionHeader={({ section: { title } }) => (
-                    <Text style={styles.header}>{title}</Text>
-                )}
             />
         </SafeAreaView>
     );
@@ -58,3 +36,13 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
     },
 });
+
+const mapStateToProps = (state) => {
+    return {
+        meals: state.meal.meals,
+    };
+};
+
+const ConnectedMealsScreen = connect(mapStateToProps)(MealsScreen);
+
+export default ConnectedMealsScreen;

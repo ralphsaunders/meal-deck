@@ -13,8 +13,13 @@ import {
     TouchableWithoutFeedback,
     KeyboardAvoidingView,
 } from "react-native";
+import "react-native-get-random-values"; // before uuid
+import { v4 as uuidv4 } from "uuid";
+import { useDispatch } from "react-redux";
+import { createMeal } from "../../state/reducers/mealReducer";
 
 export function AddMealModal({ visible = false, setVisible }) {
+    const dispatch = useDispatch();
     const [name, setName] = useState("Add Meal");
     const [ingredients, setIngredients] = useState("");
 
@@ -55,6 +60,17 @@ export function AddMealModal({ visible = false, setVisible }) {
         "Fresh Coriander",
     ].join("\n");
 
+    const onSave = () => {
+        const newMeal = {
+            id: uuidv4(),
+            name,
+            ingredients,
+        };
+
+        dispatch(createMeal(newMeal));
+        Keyboard.dismiss();
+    };
+
     return (
         <Modal
             visible={visible}
@@ -78,7 +94,7 @@ export function AddMealModal({ visible = false, setVisible }) {
                             </TouchableOpacity>
 
                             <TouchableOpacity
-                                onPress={() => Keyboard.dismiss()}
+                                onPress={onSave}
                                 style={styles.modalDoneButton}
                             >
                                 <Text style={styles.modalCloseButtonText}>
