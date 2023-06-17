@@ -13,7 +13,7 @@ const mealSlice = createSlice({
             state.meals.push(meal);
         },
         updateMeal: (state, action) => {
-            const id = action.payload;
+            const { id } = action.payload;
             const index = state.meals.findIndex((meal) => meal.id === id);
             state.meals[index] = action.payload;
         },

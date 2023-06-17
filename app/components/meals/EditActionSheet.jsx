@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { deleteMeal } from "../../state/reducers/mealReducer";
 import { useRoute, useNavigation } from "@react-navigation/native";
 
-export default function EditActionSheet({ onAction }) {
+export default function EditActionSheet({ onEdit }) {
     const { showActionSheetWithOptions } = useActionSheet();
     const dispatch = useDispatch();
     const route = useRoute();
@@ -24,20 +24,18 @@ export default function EditActionSheet({ onAction }) {
                 destructiveButtonIndex,
             },
             (buttonIndex) => {
-                let decision = null;
-
                 switch (buttonIndex) {
                     case 0:
-                        decision = "edit";
+                        onEdit(route.params);
                         break;
                     case 1:
-                        decision = "delete";
                         dispatch(deleteMeal(route.params.id));
                         navigation.goBack();
                         break;
+                    case 2:
+                        onEdit(false);
+                        break;
                 }
-
-                onAction(decision);
             }
         );
     };

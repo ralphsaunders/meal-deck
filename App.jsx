@@ -14,7 +14,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
 import MealsScreen from "./app/components/meals/MealsScreen";
-import { MealDetailScreen } from "./app/components/meals/MealDetailScreen";
+import MealDetailScreen from "./app/components/meals/MealDetailScreen";
 import { ShoppingListsScreen } from "./app/components/ShoppingListsScreen";
 import { ShoppingListDetailScreen } from "./app/components/ShoppingListDetailScreen";
 import { NewShopScreen } from "./app/components/new-shop/NewShopScreen";
@@ -23,7 +23,7 @@ import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 
 import { ManualShopModal } from "./app/components/new-shop/ManualShopModal";
 import { ShuffleShopModal } from "./app/components/new-shop/ShuffleShopModal";
-import { AddMealModal } from "./app/components/meals/AddMealModal";
+import { CreateUpdateMealModal } from "./app/components/meals/CreateUpdateMealModal";
 import { OverflowMenuProvider, Item } from "react-navigation-header-buttons";
 import EditActionSheet from "./app/components/meals/EditActionSheet";
 
@@ -32,13 +32,16 @@ const Stack = createNativeStackNavigator();
 
 const MealsStack = () => {
     const [mealModalVisible, setMealModalVisible] = useState(false);
+    const [meal, setMeal] = useState(false);
 
     const onAddMeal = () => {
+        setMeal(false);
         setMealModalVisible(true);
     };
 
-    const onAction = (action) => {
-        console.log(action);
+    const onEdit = (meal) => {
+        setMeal(meal);
+        setMealModalVisible(true);
     };
 
     return (
@@ -57,15 +60,14 @@ const MealsStack = () => {
                     name="MealDetail"
                     component={MealDetailScreen}
                     options={{
-                        headerRight: () => (
-                            <EditActionSheet onAction={onAction} />
-                        ),
+                        headerRight: () => <EditActionSheet onEdit={onEdit} />,
                     }}
                 />
             </Stack.Navigator>
-            <AddMealModal
+            <CreateUpdateMealModal
                 visible={mealModalVisible}
                 setVisible={setMealModalVisible}
+                meal={meal}
             />
         </View>
     );

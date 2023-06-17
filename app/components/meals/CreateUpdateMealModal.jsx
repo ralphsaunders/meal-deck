@@ -16,12 +16,25 @@ import {
 import "react-native-get-random-values"; // before uuid
 import { v4 as uuidv4 } from "uuid";
 import { useDispatch } from "react-redux";
-import { createMeal } from "../../state/reducers/mealReducer";
+import { createMeal, updateMeal } from "../../state/reducers/mealReducer";
 
-export function AddMealModal({ visible = false, setVisible }) {
+export function CreateUpdateMealModal({
+    visible = false,
+    setVisible,
+    meal = false,
+}) {
     const dispatch = useDispatch();
-    const [name, setName] = useState("Add Meal");
-    const [ingredients, setIngredients] = useState("");
+    const [name, setName] = useState(meal ? meal.name : "Add Meal");
+    const [ingredients, setIngredients] = useState(
+        meal ? meal.ingredients : ""
+    );
+
+    // When meal prop changes
+    useEffect(() => {
+        // Set form state to requested meal
+        setName(meal.name || "Add Meal");
+        setIngredients(meal.ingredients || "");
+    }, [meal]);
 
     const nameRef = useRef(null);
     const ingredientsRef = useRef(null);
@@ -61,14 +74,28 @@ export function AddMealModal({ visible = false, setVisible }) {
     ].join("\n");
 
     const onSave = () => {
-        const newMeal = {
-            id: uuidv4(),
-            name,
-            ingredients,
-        };
+        if (meal.id) {
+            // Update existing meal
+            const newMeal = {
+                id: meal.id,
+                name,
+                ingredients,
+            };
 
-        dispatch(createMeal(newMeal));
+            dispatch(updateMeal(newMeal));
+        } else {
+            // Create a new meal
+            const newMeal = {
+                id: uuidv4(),
+                name,
+                ingredients,
+            };
+
+            dispatch(createMeal(newMeal));
+        }
+
         Keyboard.dismiss();
+        onClose();
     };
 
     return (
@@ -119,7 +146,7 @@ export function AddMealModal({ visible = false, setVisible }) {
                                     handleKeyPress(e, nameRef, ingredientsRef)
                                 }
                                 ref={nameRef}
-                                autoFocus
+                                autoFocus={meal?.id ? false : true}
                             />
 
                             <TextInput
