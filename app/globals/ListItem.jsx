@@ -19,7 +19,9 @@ const ListItem = ({ item }) => {
 };
 
 ListItem.propTypes = {
-    name: PropTypes.string.isRequired,
+    item: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+    }).isRequired,
 };
 
 const styles = StyleSheet.create({
