@@ -1,7 +1,15 @@
 import React, { useState } from "react";
-import { TouchableOpacity, Text, Modal, View, StyleSheet } from "react-native";
+import {
+    TouchableOpacity,
+    Text,
+    Modal,
+    View,
+    StyleSheet,
+    FlatList,
+} from "react-native";
+import { connect } from "react-redux";
 
-export function ShuffleShopModal({ visible = false, setVisible }) {
+function ShuffleShopModal({ visible = false, setVisible, meals }) {
     const onClose = () => {
         setVisible(false);
     };
@@ -21,7 +29,18 @@ export function ShuffleShopModal({ visible = false, setVisible }) {
                         <Text style={styles.modalCloseButtonText}>Close</Text>
                     </TouchableOpacity>
                     <Text style={styles.modalTitle}>Chef's Choice</Text>
-                    <Text>Pick your meals from this list</Text>
+
+                    <FlatList
+                        data={meals}
+                        keyExtractor={(item) => item.id}
+                        renderItem={({ item }) => (
+                            <TouchableOpacity
+                                onPress={() => onPress(props.item)}
+                            >
+                                <Text>{item.name}</Text>
+                            </TouchableOpacity>
+                        )}
+                    />
                 </View>
             </View>
         </Modal>
@@ -53,3 +72,13 @@ const styles = StyleSheet.create({
         color: "#007AFF", // iOS blue color
     },
 });
+
+const mapStateToProps = (state) => {
+    return {
+        meals: state.meal.meals,
+    };
+};
+
+const ConnectedShuffleShopScreen = connect(mapStateToProps)(ShuffleShopModal);
+
+export default ConnectedShuffleShopScreen;

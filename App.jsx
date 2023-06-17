@@ -22,7 +22,7 @@ import NewShopActionSheet from "./app/components/new-shop/NewShopActionSheet";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 
 import { ManualShopModal } from "./app/components/new-shop/ManualShopModal";
-import { ShuffleShopModal } from "./app/components/new-shop/ShuffleShopModal";
+import ShuffleShopModal from "./app/components/new-shop/ShuffleShopModal";
 import { CreateUpdateMealModal } from "./app/components/meals/CreateUpdateMealModal";
 import { OverflowMenuProvider, Item } from "react-navigation-header-buttons";
 import EditActionSheet from "./app/components/meals/EditActionSheet";
