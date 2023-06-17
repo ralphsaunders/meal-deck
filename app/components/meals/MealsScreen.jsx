@@ -20,8 +20,7 @@ function MealsScreen({ meals }) {
 
     const onPress = (item) => {
         navigation.navigate("MealDetail", {
-            name: item.name,
-            ingredients: item.ingredients,
+            ...item,
         });
     };
 

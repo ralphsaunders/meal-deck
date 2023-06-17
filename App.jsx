@@ -23,10 +23,9 @@ import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 
 import { ManualShopModal } from "./app/components/new-shop/ManualShopModal";
 import { ShuffleShopModal } from "./app/components/new-shop/ShuffleShopModal";
-
 import { AddMealModal } from "./app/components/meals/AddMealModal";
-
 import { OverflowMenuProvider, Item } from "react-navigation-header-buttons";
+import EditActionSheet from "./app/components/meals/EditActionSheet";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -36,6 +35,10 @@ const MealsStack = () => {
 
     const onAddMeal = () => {
         setMealModalVisible(true);
+    };
+
+    const onAction = (action) => {
+        console.log(action);
     };
 
     return (
@@ -50,7 +53,15 @@ const MealsStack = () => {
                         ),
                     }}
                 />
-                <Stack.Screen name="MealDetail" component={MealDetailScreen} />
+                <Stack.Screen
+                    name="MealDetail"
+                    component={MealDetailScreen}
+                    options={{
+                        headerRight: () => (
+                            <EditActionSheet onAction={onAction} />
+                        ),
+                    }}
+                />
             </Stack.Navigator>
             <AddMealModal
                 visible={mealModalVisible}

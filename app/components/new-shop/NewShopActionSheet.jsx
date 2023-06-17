@@ -15,7 +15,7 @@ export default function NewShopActionSheet({ onAction }) {
                 cancelButtonIndex,
             },
             (buttonIndex) => {
-                let decision;
+                let decision = null;
 
                 switch (buttonIndex) {
                     case 0:
