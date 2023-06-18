@@ -9,13 +9,35 @@ import {
 } from "react-native";
 import { NewShopContext } from "../../globals/NewShopContext";
 import { connect } from "react-redux";
+import { pickRandom } from "../../../helpers/pick-random/PickRandom";
 
 function ShuffleShopModal({ meals }) {
     const { autoModalVisible, setAutoModalVisible } =
         useContext(NewShopContext);
 
+    const randomMeals = pickRandom(meals, 7);
+    const [selectedMeals, setSelectedMeals] = useState(randomMeals);
+
     const onClose = () => {
         setAutoModalVisible(false);
+    };
+
+    const onPress = (item) => {
+        const exclude = [...selectedMeals.map((meal) => meal.id)];
+
+        const remainingOptions = meals.filter(
+            (meal) => !exclude.includes(meal.id)
+        );
+
+        const swapItem = pickRandom(remainingOptions, 1)[0];
+        const swapIndex = selectedMeals.findIndex(
+            (meal) => meal.id === item.id
+        );
+
+        const newSelection = [...selectedMeals];
+        newSelection[swapIndex] = swapItem;
+
+        setSelectedMeals(newSelection);
     };
 
     return (
@@ -35,12 +57,10 @@ function ShuffleShopModal({ meals }) {
                     <Text style={styles.modalTitle}>Chef's Choice</Text>
 
                     <FlatList
-                        data={meals}
+                        data={selectedMeals}
                         keyExtractor={(item) => item.id}
                         renderItem={({ item }) => (
-                            <TouchableOpacity
-                                onPress={() => onPress(props.item)}
-                            >
+                            <TouchableOpacity onPress={() => onPress(item)}>
                                 <Text>{item.name}</Text>
                             </TouchableOpacity>
                         )}
