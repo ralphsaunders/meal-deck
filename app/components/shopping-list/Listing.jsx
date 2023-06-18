@@ -1,7 +1,8 @@
 import * as React from "react";
-import { Pressable, FlatList, Button, Text } from "react-native";
+import { Pressable, FlatList, Button, Text, StyleSheet } from "react-native";
 import { connect } from "react-redux";
 import ListItem from "../../globals/ListItem";
+import NewShopActionSheet from "../new-shop/NewShopActionSheet";
 
 function Listing({ shops }) {
     const onPress = (item) => {
@@ -26,12 +27,24 @@ function Listing({ shops }) {
                 <>
                     <Text>No Shopping Lists</Text>
                     <Text>You haven't created any shopping lists yet</Text>
-                    <Button title="Create Shop" />
+
+                    <NewShopActionSheet
+                        DisplayComponent={() => (
+                            <Text style={styles.newShopButton}>New Shop</Text>
+                        )}
+                    />
                 </>
             )}
         </>
     );
 }
+
+const styles = StyleSheet.create({
+    newShopButton: {
+        fontSize: 16,
+        color: "blue",
+    },
+});
 
 const mapStateToProps = (state) => {
     return {

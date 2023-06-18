@@ -32,13 +32,13 @@ export default function NewShopActionSheet({ DisplayComponent = null }) {
 
     return (
         <>
-            {DisplayComponent ? (
-                <DisplayComponent onPress={handlePress} />
-            ) : (
-                <TouchableOpacity onPress={handlePress} style={{ flex: 1 }}>
+            <TouchableOpacity onPress={handlePress} style={{ flex: 1 }}>
+                {DisplayComponent ? (
+                    <DisplayComponent />
+                ) : (
                     <Text style={{ textAlign: "center", fontSize: 40 }}>+</Text>
-                </TouchableOpacity>
-            )}
+                )}
+            </TouchableOpacity>
         </>
     );
 }
