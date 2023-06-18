@@ -5,13 +5,22 @@ import {
     Modal,
     View,
     StyleSheet,
+    Button,
     FlatList,
 } from "react-native";
 import { connect } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
 
 function ShuffleShopModal({ visible = false, setVisible, meals }) {
+    const navigation = useNavigation();
+
     const onClose = () => {
         setVisible(false);
+    };
+
+    const onAddMeals = () => {
+        setVisible(false);
+        navigation.navigate("Meals");
     };
 
     return (
@@ -30,17 +39,28 @@ function ShuffleShopModal({ visible = false, setVisible, meals }) {
                     </TouchableOpacity>
                     <Text style={styles.modalTitle}>Chef's Choice</Text>
 
-                    <FlatList
-                        data={meals}
-                        keyExtractor={(item) => item.id}
-                        renderItem={({ item }) => (
-                            <TouchableOpacity
-                                onPress={() => onPress(props.item)}
-                            >
-                                <Text>{item.name}</Text>
-                            </TouchableOpacity>
-                        )}
-                    />
+                    {meals.length > 6 ? (
+                        <FlatList
+                            data={meals}
+                            keyExtractor={(item) => item.id}
+                            renderItem={({ item }) => (
+                                <TouchableOpacity
+                                    onPress={() => onPress(props.item)}
+                                >
+                                    <Text>{item.name}</Text>
+                                </TouchableOpacity>
+                            )}
+                        />
+                    ) : (
+                        <>
+                            <Text>More Meals Required</Text>
+                            <Text>
+                                Add atleast 7 meals to your Meal Deck before
+                                creating a shop
+                            </Text>
+                            <Button onPress={onAddMeals} title="Add Meals" />
+                        </>
+                    )}
                 </View>
             </View>
         </Modal>

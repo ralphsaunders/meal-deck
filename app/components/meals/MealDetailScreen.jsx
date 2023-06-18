@@ -7,6 +7,10 @@ function MealDetailScreen({ route, navigation, meals }) {
     const [meal, setMeal] = useState(null);
 
     const findMeal = () => {
+        if (!id) {
+            return;
+        }
+
         const match = meals.find((meal) => meal.id === id);
         setMeal(match);
     };

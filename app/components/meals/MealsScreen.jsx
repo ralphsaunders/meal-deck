@@ -5,6 +5,7 @@ import {
     TouchableOpacity,
     SafeAreaView,
     FlatList,
+    Button,
     StatusBar,
 } from "react-native";
 import { connect } from "react-redux";

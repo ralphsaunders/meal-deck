@@ -150,15 +150,15 @@ export default function App() {
                                     />
                                 </Tab.Navigator>
                             </OverflowMenuProvider>
+                            <ManualShopModal
+                                visible={manualShopModalVisible}
+                                setVisible={setManualShopModalVisible}
+                            />
+                            <ShuffleShopModal
+                                visible={shuffleShopModalVisible}
+                                setVisible={setShuffleShopModalVisible}
+                            />
                         </NavigationContainer>
-                        <ManualShopModal
-                            visible={manualShopModalVisible}
-                            setVisible={setManualShopModalVisible}
-                        />
-                        <ShuffleShopModal
-                            visible={shuffleShopModalVisible}
-                            setVisible={setShuffleShopModalVisible}
-                        />
                     </View>
                 </ActionSheetProvider>
             </PersistGate>
