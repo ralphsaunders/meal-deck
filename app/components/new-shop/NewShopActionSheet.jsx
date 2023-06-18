@@ -1,24 +1,27 @@
 import React, { useContext } from "react";
 import { TouchableOpacity, Text } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import { NewShopContext } from "../../globals/NewShopContext";
 import { connect } from "react-redux";
 
 function NewShopActionSheet({ meals, DisplayComponent = null }) {
+    const navigation = useNavigation();
     const { showActionSheetWithOptions } = useActionSheet();
-    const { setManualModalVisible, setAutoModalVisible } =
+    const { setManualModalVisible, setAutoModalVisible, setMealModalVisible } =
         useContext(NewShopContext);
 
     const allOptions = (index) => {
         switch (index) {
             case 0:
-                setAutoModalVisible(true);
+                navigation.navigate("Meals");
+                setMealModalVisible(true);
                 break;
             case 1:
-                setManualModalVisible(true);
+                setAutoModalVisible(true);
                 break;
             case 2:
-                console.log("Add Meal");
+                setManualModalVisible(true);
                 break;
         }
     };
@@ -34,9 +37,9 @@ function NewShopActionSheet({ meals, DisplayComponent = null }) {
     const handlePress = () => {
         if (meals.length > 6) {
             const options = [
-                "Chef's Choice",
-                "Your Picks",
                 "Add Meal",
+                "Shop Chef's Choice",
+                "Shop Your Picks",
                 "Cancel",
             ];
             const cancelButtonIndex = 3;

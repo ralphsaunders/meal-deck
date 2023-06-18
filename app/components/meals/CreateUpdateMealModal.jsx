@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import {
     TouchableOpacity,
     Text,
@@ -17,13 +17,12 @@ import "react-native-get-random-values"; // before uuid
 import { v4 as uuidv4 } from "uuid";
 import { useDispatch } from "react-redux";
 import { createMeal, updateMeal } from "../../state/reducers/mealReducer";
+import { NewShopContext } from "../../globals/NewShopContext";
 
-export function CreateUpdateMealModal({
-    visible = false,
-    setVisible,
-    meal = false,
-}) {
+export function CreateUpdateMealModal({ meal = false }) {
     const dispatch = useDispatch();
+    const { mealModalVisible, setMealModalVisible } =
+        useContext(NewShopContext);
     const [name, setName] = useState(meal ? meal.name : "Add Meal");
     const [ingredients, setIngredients] = useState(
         meal ? meal.ingredients : ""
@@ -40,7 +39,7 @@ export function CreateUpdateMealModal({
     const ingredientsRef = useRef(null);
 
     const onClose = () => {
-        setVisible(false);
+        setMealModalVisible(false);
     };
 
     const handleKeyPress = (e, currentFieldRef, nextFieldRef) => {
@@ -100,7 +99,7 @@ export function CreateUpdateMealModal({
 
     return (
         <Modal
-            visible={visible}
+            visible={mealModalVisible}
             animationType="slide"
             presentationStyle="pageSheet"
         >

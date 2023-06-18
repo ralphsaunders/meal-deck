@@ -5,6 +5,7 @@ const NewShopContext = createContext();
 const NewShopProvider = ({ children }) => {
     const [autoModalVisible, setAutoModalVisible] = useState(false);
     const [manualModalVisible, setManualModalVisible] = useState(false);
+    const [mealModalVisible, setMealModalVisible] = useState(false);
 
     return (
         <NewShopContext.Provider
@@ -13,6 +14,8 @@ const NewShopProvider = ({ children }) => {
                 setAutoModalVisible,
                 manualModalVisible,
                 setManualModalVisible,
+                mealModalVisible,
+                setMealModalVisible,
             }}
         >
             {children}

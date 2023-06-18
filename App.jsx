@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useRoute } from "@react-navigation/native";
 import MealsScreen from "./app/components/meals/MealsScreen";
 import MealDetailScreen from "./app/components/meals/MealDetailScreen";
 import ShoppingListsScreen from "./app/components/shopping-list/ShoppingListsScreen";
@@ -33,7 +33,8 @@ const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 const MealsStack = () => {
-    const [mealModalVisible, setMealModalVisible] = useState(false);
+    const { mealModalVisible, setMealModalVisible } =
+        useContext(NewShopContext);
     const [meal, setMeal] = useState(false);
 
     const onAddMeal = () => {
