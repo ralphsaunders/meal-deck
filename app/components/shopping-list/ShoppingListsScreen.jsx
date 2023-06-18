@@ -7,6 +7,7 @@ import {
     View,
     Text,
     StyleSheet,
+    Button,
 } from "react-native";
 import { connect } from "react-redux";
 import ListItem from "../../globals/ListItem";
@@ -23,9 +24,21 @@ function ShoppingListsScreen({ navigation, shops, meals }) {
         });
     };
 
+    const goToMeals = () => {
+        navigation.navigate("Meals");
+    };
+
     return (
         <SafeAreaView style={styles.container}>
-            <Listing />
+            {meals.length > 6 ? (
+                <Listing />
+            ) : (
+                <>
+                    <Text>Not Enough Meals</Text>
+                    <Text>Add at least 7 meals before creating Shops</Text>
+                    <Button title="Go to Meals" onPress={goToMeals} />
+                </>
+            )}
         </SafeAreaView>
     );
 }
