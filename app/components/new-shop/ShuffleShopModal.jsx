@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
     TouchableOpacity,
     Text,
@@ -7,16 +7,20 @@ import {
     StyleSheet,
     FlatList,
 } from "react-native";
+import { NewShopContext } from "../../globals/NewShopContext";
 import { connect } from "react-redux";
 
-function ShuffleShopModal({ visible = false, setVisible, meals }) {
+function ShuffleShopModal({ meals }) {
+    const { autoModalVisible, setAutoModalVisible } =
+        useContext(NewShopContext);
+
     const onClose = () => {
-        setVisible(false);
+        setAutoModalVisible(false);
     };
 
     return (
         <Modal
-            visible={visible}
+            visible={autoModalVisible}
             animationType="slide"
             presentationStyle="pageSheet"
         >

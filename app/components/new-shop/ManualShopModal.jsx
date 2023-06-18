@@ -1,14 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { TouchableOpacity, Text, Modal, View, StyleSheet } from "react-native";
+import { NewShopContext } from "../../globals/NewShopContext";
 
-export function ManualShopModal({ visible = false, setVisible }) {
+export function ManualShopModal() {
+    const { manualModalVisible, setManualModalVisible } =
+        useContext(NewShopContext);
+
     const onClose = () => {
-        setVisible(false);
+        setManualModalVisible(false);
     };
 
     return (
         <Modal
-            visible={visible}
+            visible={manualModalVisible}
             animationType="slide"
             presentationStyle="pageSheet"
         >

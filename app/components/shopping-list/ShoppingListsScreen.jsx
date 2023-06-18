@@ -10,12 +10,13 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 import ListItem from "../../globals/ListItem";
+import Listing from "./Listing";
 
 /**
  * Shopping Lists Screen
  * @returns {string} <ShoppingListListingScreen /> component
  */
-function ShoppingListsScreen({ navigation, shops }) {
+function ShoppingListsScreen({ navigation, shops, meals }) {
     const onPress = (item) => {
         navigation.push("ShoppingListDetail", {
             ...item,
@@ -24,19 +25,7 @@ function ShoppingListsScreen({ navigation, shops }) {
 
     return (
         <SafeAreaView style={styles.container}>
-            {shops.length ? (
-                <FlatList
-                    data={shops}
-                    renderItem={({ item }) => (
-                        <Pressable onPress={() => onPress(item)}>
-                            <ListItem item={item} />
-                        </Pressable>
-                    )}
-                    keyExtractor={(item, index) => item + index}
-                />
-            ) : (
-                <Text>Nothing to see here</Text>
-            )}
+            <Listing />
         </SafeAreaView>
     );
 }
@@ -53,6 +42,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
     return {
         shops: state.shop.shops,
+        meals: state.meal.meals,
     };
 };
 

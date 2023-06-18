@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import store, { persistor } from "./app/state/persistor";
@@ -26,6 +26,8 @@ import ShuffleShopModal from "./app/components/new-shop/ShuffleShopModal";
 import { CreateUpdateMealModal } from "./app/components/meals/CreateUpdateMealModal";
 import { OverflowMenuProvider, Item } from "react-navigation-header-buttons";
 import EditActionSheet from "./app/components/meals/EditActionSheet";
+
+import { NewShopProvider, NewShopContext } from "./app/globals/NewShopContext";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -88,79 +90,68 @@ const ShoppingListsStack = () => {
     );
 };
 
+function App() {
+    const {
+        autoModalVisible,
+        setAutoModalVisible,
+        manualModalVisible,
+        setManualModalVisible,
+    } = useContext(NewShopContext);
+
+    return (
+        <View style={styles.container}>
+            <NavigationContainer>
+                <OverflowMenuProvider>
+                    <Tab.Navigator
+                        initialRouteName="MealsTab"
+                        screenOptions={{
+                            headerShown: false,
+                        }}
+                    >
+                        <Tab.Screen
+                            name="MealsTab"
+                            component={MealsStack}
+                            options={{
+                                tabBarLabel: "Meals",
+                            }}
+                        />
+                        <Tab.Screen
+                            name="ShoppingListTab"
+                            component={ShoppingListsStack}
+                            options={{
+                                tabBarLabel: "Shopping Lists",
+                            }}
+                        />
+                        <Tab.Screen
+                            name="New Shop"
+                            component={NewShopScreen}
+                            options={{
+                                tabBarLabel: "",
+                                tabBarButton: (props) => <NewShopActionSheet />,
+                            }}
+                        />
+                    </Tab.Navigator>
+                </OverflowMenuProvider>
+            </NavigationContainer>
+            <ManualShopModal />
+            <ShuffleShopModal />
+        </View>
+    );
+}
+
 /**
  * Root App component
  * @returns {string} App component tree
  */
-export default function App() {
-    const [manualShopModalVisible, setManualShopModalVisible] = useState(false);
-    const [shuffleShopModalVisible, setShuffleShopModalVisible] =
-        useState(false);
-
-    const onNewShopAction = (decision) => {
-        switch (decision) {
-            case "shuffle":
-                setShuffleShopModalVisible(true);
-                break;
-            case "manual":
-                setManualShopModalVisible(true);
-                console.log(decision);
-                break;
-        }
-    };
-
+export default function Root() {
     return (
         <Provider store={store}>
             <PersistGate loading={null} persistor={persistor}>
-                <ActionSheetProvider>
-                    <View style={styles.container}>
-                        <NavigationContainer>
-                            <OverflowMenuProvider>
-                                <Tab.Navigator
-                                    initialRouteName="MealsTab"
-                                    screenOptions={{
-                                        headerShown: false,
-                                    }}
-                                >
-                                    <Tab.Screen
-                                        name="MealsTab"
-                                        component={MealsStack}
-                                        options={{
-                                            tabBarLabel: "Meals",
-                                        }}
-                                    />
-                                    <Tab.Screen
-                                        name="ShoppingListTab"
-                                        component={ShoppingListsStack}
-                                        options={{
-                                            tabBarLabel: "Shopping Lists",
-                                        }}
-                                    />
-                                    <Tab.Screen
-                                        name="New Shop"
-                                        component={NewShopScreen}
-                                        options={{
-                                            tabBarLabel: "",
-                                            tabBarButton: (props) => (
-                                                <NewShopActionSheet
-                                                    onAction={onNewShopAction}
-                                                />
-                                            ),
-                                        }}
-                                    />
-                                </Tab.Navigator>
-                            </OverflowMenuProvider>
-                        </NavigationContainer>
-                        <ManualShopModal
-                            visible={manualShopModalVisible}
-                            setVisible={setManualShopModalVisible}
-                        />
-                        <ShuffleShopModal
-                            visible={shuffleShopModalVisible}
-                            setVisible={setShuffleShopModalVisible}
-                        />
-                    </View>
-                </ActionSheetProvider>
+                <NewShopProvider>
+                    <ActionSheetProvider>
+                        <App />
+                    </ActionSheetProvider>
+                </NewShopProvider>
             </PersistGate>
         </Provider>
     );
