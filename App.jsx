@@ -16,16 +16,17 @@ import { NavigationContainer, useRoute } from "@react-navigation/native";
 import MealsScreen from "./app/components/meals/MealsScreen";
 import MealDetailScreen from "./app/components/meals/MealDetailScreen";
 import ShoppingListsScreen from "./app/components/shopping-list/ShoppingListsScreen";
-import { ShoppingListDetailScreen } from "./app/components/shopping-list/ShoppingListDetailScreen";
+import ShoppingListDetailScreen from "./app/components/shopping-list/ShoppingListDetailScreen";
 import { NewShopScreen } from "./app/components/new-shop/NewShopScreen";
 import NewShopActionSheet from "./app/components/new-shop/NewShopActionSheet";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 
-import { ManualShopModal } from "./app/components/new-shop/ManualShopModal";
+import ManualShopModal from "./app/components/new-shop/ManualShopModal";
 import ShuffleShopModal from "./app/components/new-shop/ShuffleShopModal";
 import { CreateUpdateMealModal } from "./app/components/meals/CreateUpdateMealModal";
 import { OverflowMenuProvider, Item } from "react-navigation-header-buttons";
 import EditActionSheet from "./app/components/meals/EditActionSheet";
+import EditShopActionSheet from "./app/components/shopping-list/EditShopActionSheet";
 
 import { NewShopProvider, NewShopContext } from "./app/globals/NewShopContext";
 
@@ -35,6 +36,7 @@ const Stack = createNativeStackNavigator();
 const MealsStack = () => {
     const { mealModalVisible, setMealModalVisible } =
         useContext(NewShopContext);
+
     const [meal, setMeal] = useState(false);
 
     const onAddMeal = () => {
@@ -77,6 +79,8 @@ const MealsStack = () => {
 };
 
 const ShoppingListsStack = () => {
+    const onEdit = (shop) => {};
+
     return (
         <Stack.Navigator>
             <Stack.Screen
@@ -86,6 +90,9 @@ const ShoppingListsStack = () => {
             <Stack.Screen
                 name="ShoppingListDetail"
                 component={ShoppingListDetailScreen}
+                options={{
+                    headerRight: () => <EditShopActionSheet onEdit={onEdit} />,
+                }}
             />
         </Stack.Navigator>
     );

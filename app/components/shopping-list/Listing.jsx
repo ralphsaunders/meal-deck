@@ -1,13 +1,19 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import { Pressable, FlatList, Button, Text, StyleSheet } from "react-native";
 import { connect } from "react-redux";
 import ListItem from "../../globals/ListItem";
 import NewShopActionSheet from "../new-shop/NewShopActionSheet";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+import { useNavigation } from "@react-navigation/native";
 
 function Listing({ shops }) {
+    dayjs.extend(relativeTime);
+    const navigation = useNavigation();
+
     const onPress = (item) => {
         navigation.push("ShoppingListDetail", {
-            ...item,
+            item,
         });
     };
 
@@ -18,7 +24,7 @@ function Listing({ shops }) {
                     data={shops}
                     renderItem={({ item }) => (
                         <Pressable onPress={() => onPress(item)}>
-                            <ListItem item={item} />
+                            <Text>{dayjs.unix(item.timestamp).fromNow()}</Text>
                         </Pressable>
                     )}
                     keyExtractor={(item, index) => item + index}

@@ -22,6 +22,10 @@ function ShuffleShopModal({ meals }) {
         setAutoModalVisible(false);
     };
 
+    /**
+     * Swap tapped meal with another meal from the store, avoiding any meals
+     * that are currently in the list.
+     */
     const onPress = (item) => {
         const exclude = [...selectedMeals.map((meal) => meal.id)];
 

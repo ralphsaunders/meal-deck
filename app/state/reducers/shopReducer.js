@@ -10,7 +10,12 @@ const shopSlice = createSlice({
     reducers: {
         createShop: (state, action) => {
             const shop = action.payload;
+            // Retain meal IDs only
+            shop.meals = shop.meals
+                .filter((meal) => meal.selected)
+                .map((meal) => meal.id);
             state.shops.push(shop);
+            state.shops.sort((a, b) => b.timestamp - a.timestamp);
         },
         updateShop: (state, action) => {
             const { id } = action.payload;
