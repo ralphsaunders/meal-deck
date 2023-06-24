@@ -24,11 +24,16 @@ export function tokenizeInput(input) {
     );
     const sanitisedInput = input.replace(findPrepositionsAdjectives, "");
 
-    const findDigits = new RegExp(/\d+/);
+    const findDigits = new RegExp(/\d?\/?\d+/);
     let quantity = sanitisedInput.match(findDigits);
-    quantity = quantity ? parseInt(quantity[0], 10) : quantity;
+    if (quantity && quantity[0].includes("/")) {
+        // If user supplied a fraction
+        quantity = eval(quantity[0]); // Convert to decimal
+    } else {
+        quantity = quantity ? parseInt(quantity[0], 10) : quantity;
+    }
 
-    const findNotDigits = new RegExp(/\D+/);
+    const findNotDigits = new RegExp(/[^\d]\D+/);
     const ingredient = sanitisedInput.match(findNotDigits);
 
     const findUnit = new RegExp(`(${units.join("|")})e?s?\\s`);

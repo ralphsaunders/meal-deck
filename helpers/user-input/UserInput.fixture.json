@@ -46,5 +46,11 @@
         "quantity": 5,
         "unit": "kilogram",
         "ingredient": "hops"
+    },
+    {
+        "input": "1/2 tsp paprika",
+        "quantity": 0.5,
+        "unit": "teaspoon",
+        "ingredient": "paprika"
     }
 ]
