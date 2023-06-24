@@ -28,7 +28,8 @@ export function tokenizeInput(input) {
     let quantity = sanitisedInput.match(findDigits);
     if (quantity && quantity[0].includes("/")) {
         // If user supplied a fraction
-        quantity = eval(quantity[0]); // Convert to decimal
+        const [numerator, denominator] = quantity[0].split("/");
+        quantity = parseInt(numerator, 10) / parseInt(denominator, 10); // Convert to decimal
     } else {
         quantity = quantity ? parseInt(quantity[0], 10) : quantity;
     }
