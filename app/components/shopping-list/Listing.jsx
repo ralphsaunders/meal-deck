@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { Pressable, FlatList, Button, Text, StyleSheet } from "react-native";
-import { connect } from "react-redux";
 import ListItem from "../../globals/ListItem";
 import NewShopActionSheet from "../new-shop/NewShopActionSheet";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useNavigation } from "@react-navigation/native";
+import { selectShops } from "../../state/reducers/shopReducer";
+import { useSelector } from "react-redux";
 
-function Listing({ shops }) {
-    dayjs.extend(relativeTime);
+function Listing() {
+    const shops = useSelector((state) => selectShops(state));
     const navigation = useNavigation();
+    dayjs.extend(relativeTime);
 
     const onPress = (item) => {
         navigation.push("ShoppingListDetail", {
@@ -52,10 +54,4 @@ const styles = StyleSheet.create({
     },
 });
 
-const mapStateToProps = (state) => {
-    return {
-        shops: state.shop.shops,
-    };
-};
-const ConnectedComponent = connect(mapStateToProps)(Listing);
-export default ConnectedComponent;
+export default Listing;

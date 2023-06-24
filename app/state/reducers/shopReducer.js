@@ -1,13 +1,14 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createEntityAdapter } from "@reduxjs/toolkit";
+import { PURGE } from "redux-persist";
 import { v4 as uuidv4 } from "uuid";
 
-const initialState = {
-    shops: [],
-};
+const shopAdapter = createEntityAdapter({
+    sortComparer: (a, b) => b.timestamp - a.timestamp,
+});
 
 const shopSlice = createSlice({
     name: "shop",
-    initialState,
+    initialState: shopAdapter.getInitialState(),
     reducers: {
         /**
          * Create Shop
@@ -22,11 +23,7 @@ const shopSlice = createSlice({
          *      ]))
          */
         createShop: {
-            reducer: (state, action) => {
-                const newShop = action.payload;
-                state.shops.push(newShop);
-                state.shops.sort((a, b) => b.timestamp - a.timestamp);
-            },
+            reducer: shopAdapter.addOne,
             prepare: (meals) => {
                 const id = uuidv4();
                 const timestamp = Math.floor(Date.now() / 1000);
@@ -40,17 +37,18 @@ const shopSlice = createSlice({
                 };
             },
         },
-        updateShop: (state, action) => {
-            const { id } = action.payload;
-            const index = state.shops.findIndex((shop) => shop.id === id);
-            state.shops[index] = action.payload;
-        },
-        deleteShop: (state, action) => {
-            const id = action.payload;
-            state.shops = state.shops.filter((shop) => shop.id !== id);
-        },
+        updateShop: shopAdapter.updateOne,
+        deleteShop: shopAdapter.removeOne,
+    },
+    extraReducers: (builder) => {
+        builder.addCase(PURGE, shopAdapter.getInitialState);
     },
 });
+
+const shopSelectors = shopAdapter.getSelectors((state) => state.shop);
+
+export const { selectAll: selectShops, selectById: selectShopById } =
+    shopSelectors;
 
 export const { createShop, updateShop, deleteShop } = shopSlice.actions;
 

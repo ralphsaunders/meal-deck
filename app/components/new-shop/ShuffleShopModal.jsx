@@ -20,8 +20,8 @@ function ShuffleShopModal({ meals }) {
     const { autoModalVisible, setAutoModalVisible } =
         useContext(NewShopContext);
 
-    const randomMeals = pickRandom(meals, 7);
-    const [selectedMeals, setSelectedMeals] = useState(randomMeals);
+    //const randomMeals = pickRandom(meals, 7);
+    const [selectedMeals, setSelectedMeals] = useState([]);
 
     const onClose = () => {
         setAutoModalVisible(false);

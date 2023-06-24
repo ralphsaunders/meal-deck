@@ -4,6 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import { NewShopContext } from "../../globals/NewShopContext";
 import { connect } from "react-redux";
+import { persistor } from "../../state/persistor";
 
 function NewShopActionSheet({ meals, DisplayComponent = null }) {
     const navigation = useNavigation();
@@ -23,6 +24,9 @@ function NewShopActionSheet({ meals, DisplayComponent = null }) {
             case 2:
                 setManualModalVisible(true);
                 break;
+            case 3:
+                persistor.purge();
+                break;
         }
     };
 
@@ -40,9 +44,10 @@ function NewShopActionSheet({ meals, DisplayComponent = null }) {
                 "Add Meal",
                 "Shop Chef's Choice",
                 "Shop Your Picks",
+                "Purge Shops",
                 "Cancel",
             ];
-            const cancelButtonIndex = 3;
+            const cancelButtonIndex = 4;
 
             showActionSheetWithOptions(
                 {
