@@ -13,15 +13,18 @@ import { pickRandom } from "../../../helpers/pick-random/PickRandom";
 import { useDispatch } from "react-redux";
 import { createShop } from "../../state/reducers/shopReducer";
 import { useNavigation } from "@react-navigation/native";
+import { selectMeals } from "../../state/reducers/mealReducer";
+import { useSelector } from "react-redux";
 
-function ShuffleShopModal({ meals }) {
+function ShuffleShopModal() {
     const navigation = useNavigation();
     const dispatch = useDispatch();
     const { autoModalVisible, setAutoModalVisible } =
         useContext(NewShopContext);
+    const meals = useSelector((state) => selectMeals(state));
 
-    //const randomMeals = pickRandom(meals, 7);
-    const [selectedMeals, setSelectedMeals] = useState([]);
+    const randomMeals = pickRandom(meals, 7);
+    const [selectedMeals, setSelectedMeals] = useState(meals);
 
     const onClose = () => {
         setAutoModalVisible(false);
@@ -120,12 +123,4 @@ const styles = StyleSheet.create({
     },
 });
 
-const mapStateToProps = (state) => {
-    return {
-        meals: state.meal.meals,
-    };
-};
-
-const ConnectedShuffleShopScreen = connect(mapStateToProps)(ShuffleShopModal);
-
-export default ConnectedShuffleShopScreen;
+export default ShuffleShopModal;

@@ -76,8 +76,10 @@ export function CreateUpdateMealModal({ meal = false }) {
             // Update existing meal
             const newMeal = {
                 id: meal.id,
-                name,
-                ingredients,
+                changes: {
+                    name,
+                    ingredients,
+                },
             };
 
             dispatch(updateMeal(newMeal));

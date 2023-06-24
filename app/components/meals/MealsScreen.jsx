@@ -7,15 +7,17 @@ import {
     FlatList,
     StatusBar,
 } from "react-native";
-import { connect } from "react-redux";
 import ListItem from "../../globals/ListItem";
 import { useNavigation } from "@react-navigation/native";
+import { selectMeals } from "../../state/reducers/mealReducer";
+import { useSelector } from "react-redux";
 
 /**
  * Meal List Screen
  * @returns {string} <MealListScreen /> component
  */
-function MealsScreen({ meals }) {
+function MealsScreen() {
+    const meals = useSelector((state) => selectMeals(state));
     const navigation = useNavigation();
 
     const onPress = (item) => {
@@ -51,12 +53,4 @@ const styles = StyleSheet.create({
     },
 });
 
-const mapStateToProps = (state) => {
-    return {
-        meals: state.meal.meals,
-    };
-};
-
-const ConnectedMealsScreen = connect(mapStateToProps)(MealsScreen);
-
-export default ConnectedMealsScreen;
+export default MealsScreen;

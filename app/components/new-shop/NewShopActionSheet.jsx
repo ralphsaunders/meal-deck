@@ -3,10 +3,12 @@ import { TouchableOpacity, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import { NewShopContext } from "../../globals/NewShopContext";
-import { connect } from "react-redux";
 import { persistor } from "../../state/persistor";
+import { selectMeals } from "../../state/reducers/mealReducer";
+import { useSelector } from "react-redux";
 
-function NewShopActionSheet({ meals, DisplayComponent = null }) {
+function NewShopActionSheet({ DisplayComponent = null }) {
+    const meals = useSelector((state) => selectMeals(state));
     const navigation = useNavigation();
     const { showActionSheetWithOptions } = useActionSheet();
     const { setManualModalVisible, setAutoModalVisible, setMealModalVisible } =
@@ -82,11 +84,4 @@ function NewShopActionSheet({ meals, DisplayComponent = null }) {
     );
 }
 
-const mapStateToProps = (state) => {
-    return {
-        meals: state.meal.meals,
-    };
-};
-
-const ConnectedComponent = connect(mapStateToProps)(NewShopActionSheet);
-export default ConnectedComponent;
+export default NewShopActionSheet;

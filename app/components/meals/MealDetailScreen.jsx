@@ -1,18 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { SafeAreaView, ScrollView, Text } from "react-native";
-import { connect } from "react-redux";
+import { selectMealById } from "../../state/reducers/mealReducer";
+import { useSelector } from "react-redux";
 
-function MealDetailScreen({ route, navigation, meals }) {
+function MealDetailScreen({ route, navigation }) {
     const { id } = route.params;
-    const [meal, setMeal] = useState(null);
-
-    const findMeal = () => {
-        const match = meals.find((meal) => meal.id === id);
-        setMeal(match);
-    };
-
-    useEffect(findMeal, []);
-    useEffect(findMeal, [meals]);
+    const meal = useSelector((state) => selectMealById(state, id));
 
     return (
         <SafeAreaView>
@@ -24,12 +17,4 @@ function MealDetailScreen({ route, navigation, meals }) {
     );
 }
 
-const mapStateToProps = (state) => {
-    return {
-        meals: state.meal.meals,
-    };
-};
-
-const ConnectedMealDetailScreen = connect(mapStateToProps)(MealDetailScreen);
-
-export default ConnectedMealDetailScreen;
+export default MealDetailScreen;

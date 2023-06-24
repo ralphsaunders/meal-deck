@@ -9,20 +9,17 @@ import {
     StyleSheet,
     Button,
 } from "react-native";
-import { connect } from "react-redux";
 import ListItem from "../../globals/ListItem";
 import Listing from "./Listing";
+import { selectMeals } from "../../state/reducers/mealReducer";
+import { useSelector } from "react-redux";
 
 /**
  * Shopping Lists Screen
  * @returns {string} <ShoppingListListingScreen /> component
  */
-function ShoppingListsScreen({ navigation, shops, meals }) {
-    const onPress = (item) => {
-        navigation.push("ShoppingListDetail", {
-            ...item,
-        });
-    };
+function ShoppingListsScreen({ navigation }) {
+    const meals = useSelector((state) => selectMeals(state));
 
     const goToMeals = () => {
         navigation.navigate("Meals");
@@ -52,14 +49,4 @@ const styles = StyleSheet.create({
     },
 });
 
-const mapStateToProps = (state) => {
-    return {
-        shops: state.shop.shops,
-        meals: state.meal.meals,
-    };
-};
-
-const ConnectedShoppingListsScreen =
-    connect(mapStateToProps)(ShoppingListsScreen);
-
-export default ConnectedShoppingListsScreen;
+export default ShoppingListsScreen;

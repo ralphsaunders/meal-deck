@@ -11,11 +11,14 @@ import { NewShopContext } from "../../globals/NewShopContext";
 import { connect } from "react-redux";
 import { useDispatch } from "react-redux";
 import { createShop } from "../../state/reducers/shopReducer";
+import { selectMeals } from "../../state/reducers/mealReducer";
+import { useSelector } from "react-redux";
 
-function ManualShopModal({ meals }) {
+function ManualShopModal() {
     const dispatch = useDispatch();
     const { manualModalVisible, setManualModalVisible } =
         useContext(NewShopContext);
+    const meals = useSelector((state) => selectMeals(state));
 
     const [selectedMeals, setSelectedMeals] = useState(meals);
 
@@ -111,11 +114,4 @@ const styles = StyleSheet.create({
     },
 });
 
-const mapStateToProps = (state) => {
-    return {
-        meals: state.meal.meals,
-    };
-};
-
-const ConnectedComponent = connect(mapStateToProps)(ManualShopModal);
-export default ConnectedComponent;
+export default ManualShopModal;

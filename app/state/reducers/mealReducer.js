@@ -1,13 +1,13 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createEntityAdapter } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
 
-const initialState = {
-    meals: [],
-};
+const entity = createEntityAdapter({
+    sortComparer: (a, b) => b.timestamp - a.timestamp,
+});
 
-const mealSlice = createSlice({
+const slice = createSlice({
     name: "meal",
-    initialState,
+    initialState: entity.getInitialState(),
     reducers: {
         /**
          * Create Meal
@@ -22,33 +22,28 @@ const mealSlice = createSlice({
          *      }));
          */
         createMeal: {
-            reducer: (state, action) => {
-                const meal = action.payload;
-                state.meals.push(meal);
-            },
+            reducer: entity.addOne,
             prepare: ({ name, ingredients }) => {
                 const id = uuidv4();
+                const timestamp = Math.floor(Date.now() / 1000);
+
                 return {
                     payload: {
                         id,
+                        timestamp,
                         name,
                         ingredients,
                     },
                 };
             },
         },
-        updateMeal: (state, action) => {
-            const { id } = action.payload;
-            const index = state.meals.findIndex((meal) => meal.id === id);
-            state.meals[index] = action.payload;
-        },
-        deleteMeal: (state, action) => {
-            const id = action.payload;
-            state.meals = state.meals.filter((meal) => meal.id !== id);
-        },
+        updateMeal: entity.updateOne,
+        deleteMeal: entity.removeOne,
     },
 });
 
-export const { createMeal, updateMeal, deleteMeal } = mealSlice.actions;
+const selectors = entity.getSelectors((state) => state.meal);
 
-export default mealSlice.reducer;
+export const { selectAll: selectMeals, selectById: selectMealById } = selectors;
+export const { createMeal, updateMeal, deleteMeal } = slice.actions;
+export default slice.reducer;
