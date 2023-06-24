@@ -2,19 +2,16 @@ import * as React from "react";
 import { SafeAreaView, ScrollView, Text } from "react-native";
 import { connect } from "react-redux";
 
-function ShoppingListDetailScreen({ route, navigation, meals }) {
-    const { title } = route.params.item;
-    const mealsOnList = meals.filter((meal) =>
-        route.params.item.meals.includes(meal.id)
-    );
+function ShoppingListDetailScreen({ route, navigation, meals, shops }) {
+    const { id } = route.params.item;
+    const shop = shops.find((shop) => shop.id === id);
+    const mealsOnList = meals.filter((meal) => shop.meals.includes(meal.id));
 
     const ingredients = mealsOnList.map((meal) => meal.ingredients);
 
     return (
         <SafeAreaView>
             <ScrollView>
-                <Text>{title}</Text>
-
                 <Text>Meals</Text>
                 {mealsOnList.map((meal) => (
                     <Text key={meal.id}>{meal.name}</Text>
@@ -32,6 +29,7 @@ function ShoppingListDetailScreen({ route, navigation, meals }) {
 const mapStateToProps = (state) => {
     return {
         meals: state.meal.meals,
+        shops: state.shop.shops,
     };
 };
 

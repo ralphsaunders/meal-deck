@@ -29,8 +29,8 @@ export default function EditShopActionSheet({ onEdit }) {
                         onEdit(route.params);
                         break;
                     case 1:
-                        dispatch(deleteShop(route.params.id));
                         navigation.goBack();
+                        dispatch(deleteShop(route.params.item.id));
                         break;
                     case 2:
                         onEdit(false);

@@ -10,8 +10,13 @@ import {
 import { NewShopContext } from "../../globals/NewShopContext";
 import { connect } from "react-redux";
 import { pickRandom } from "../../../helpers/pick-random/PickRandom";
+import { useDispatch } from "react-redux";
+import { createShop } from "../../state/reducers/shopReducer";
+import { useNavigation } from "@react-navigation/native";
 
 function ShuffleShopModal({ meals }) {
+    const navigation = useNavigation();
+    const dispatch = useDispatch();
     const { autoModalVisible, setAutoModalVisible } =
         useContext(NewShopContext);
 
@@ -26,7 +31,7 @@ function ShuffleShopModal({ meals }) {
      * Swap tapped meal with another meal from the store, avoiding any meals
      * that are currently in the list.
      */
-    const onPress = (item) => {
+    const swap = (item) => {
         const exclude = [...selectedMeals.map((meal) => meal.id)];
 
         const remainingOptions = meals.filter(
@@ -44,6 +49,16 @@ function ShuffleShopModal({ meals }) {
         setSelectedMeals(newSelection);
     };
 
+    const onSave = () => {
+        const newShop = [...selectedMeals].map((meal) => meal.id);
+        dispatch(createShop(newShop));
+
+        // Close modal
+        setAutoModalVisible(false);
+
+        //navigation.navigate('ShoppingListDetail', { item: { id: newShop.id } });
+    };
+
     return (
         <Modal
             visible={autoModalVisible}
@@ -58,13 +73,17 @@ function ShuffleShopModal({ meals }) {
                     >
                         <Text style={styles.modalCloseButtonText}>Close</Text>
                     </TouchableOpacity>
-                    <Text style={styles.modalTitle}>Chef's Choice</Text>
+                    <TouchableOpacity onPress={onSave}>
+                        <Text style={styles.modalCloseButtonText}>Save</Text>
+                    </TouchableOpacity>
+
+                    <Text style={styles.modalTitle}>Chef&apos;s Choice</Text>
 
                     <FlatList
                         data={selectedMeals}
                         keyExtractor={(item) => item.id}
                         renderItem={({ item }) => (
-                            <TouchableOpacity onPress={() => onPress(item)}>
+                            <TouchableOpacity onPress={() => swap(item)}>
                                 <Text>{item.name}</Text>
                             </TouchableOpacity>
                         )}

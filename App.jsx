@@ -140,9 +140,9 @@ function App() {
                         />
                     </Tab.Navigator>
                 </OverflowMenuProvider>
+                <ManualShopModal />
+                <ShuffleShopModal />
             </NavigationContainer>
-            <ManualShopModal />
-            <ShuffleShopModal />
         </View>
     );
 }
