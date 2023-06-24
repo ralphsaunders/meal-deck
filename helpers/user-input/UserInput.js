@@ -22,7 +22,9 @@ export function tokenizeInput(input) {
         `\\b(${prepositions.join("|")}|${adjectives.join("|")})\\b`,
         "g"
     );
-    const sanitisedInput = input.replace(findPrepositionsAdjectives, "");
+    const sanitisedInput = input
+        .toLowerCase()
+        .replace(findPrepositionsAdjectives, "");
 
     const findDigits = new RegExp(/\d?\/?\d+/);
     let quantity = sanitisedInput.match(findDigits);
@@ -51,6 +53,24 @@ export function tokenizeInput(input) {
     };
 
     return output;
+}
+
+export function processIngredients(ingredients) {
+    return ingredients
+        .split("\n")
+        .map((i) => tokenizeInput(i))
+        .reduce((acc, cur) => {
+            const index = acc.findIndex((a) => a.ingredient === cur.ingredient);
+
+            if (index === -1) {
+                // if ingredient not present in accumulator
+                acc.push(cur);
+            } else {
+                // sum quantities of matching ingredients
+                acc[index].quantity += cur?.quantity ?? 1;
+            }
+            return acc;
+        }, []);
 }
 
 /**

@@ -44,6 +44,10 @@ const slice = createSlice({
 
 const selectors = entity.getSelectors((state) => state.meal);
 
-export const { selectAll: selectMeals, selectById: selectMealById } = selectors;
+export const {
+    selectAll: selectMeals,
+    selectById: selectMealById,
+    selectTotal: totalMeals,
+} = selectors;
 export const { createMeal, updateMeal, deleteMeal } = slice.actions;
 export default slice.reducer;

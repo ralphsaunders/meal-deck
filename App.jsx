@@ -28,7 +28,7 @@ import ShoppingListDetailScreen from "./app/components/shopping-list/ShoppingLis
 import ShoppingListsScreen from "./app/components/shopping-list/ShoppingListsScreen";
 import { NewShopProvider, NewShopContext } from "./app/globals/NewShopContext";
 import store, { persistor } from "./app/state/persistor";
-import { selectMeals } from "./app/state/reducers/mealReducer";
+import { totalMeals } from "./app/state/reducers/mealReducer";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -104,7 +104,7 @@ function App() {
         setManualModalVisible,
     } = useContext(NewShopContext);
 
-    const meals = useSelector((state) => selectMeals(state));
+    const meals = useSelector((state) => totalMeals(state));
 
     return (
         <View style={styles.container}>
