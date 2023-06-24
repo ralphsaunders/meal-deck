@@ -1,7 +1,12 @@
+import ShoppingListsScreen from "./app/components/shopping-list/ShoppingListsScreen";
+import ShoppingListDetailScreen from "./app/components/shopping-list/ShoppingListDetailScreen";
+import { NewShopScreen } from "./app/components/new-shop/NewShopScreen";
+import NewShopActionSheet from "./app/components/new-shop/NewShopActionSheet";
+import { ActionSheetProvider } from "@expo/react-native-action-sheet";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { NavigationContainer, useRoute } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React, { useState, useContext } from "react";
-import { Provider } from "react-redux";
-import { PersistGate } from "redux-persist/integration/react";
-import store, { persistor } from "./app/state/persistor";
 import {
     TouchableOpacity,
     Text,
@@ -10,25 +15,19 @@ import {
     StyleSheet,
     Button,
 } from "react-native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { NavigationContainer, useRoute } from "@react-navigation/native";
-import MealsScreen from "./app/components/meals/MealsScreen";
-import MealDetailScreen from "./app/components/meals/MealDetailScreen";
-import ShoppingListsScreen from "./app/components/shopping-list/ShoppingListsScreen";
-import ShoppingListDetailScreen from "./app/components/shopping-list/ShoppingListDetailScreen";
-import { NewShopScreen } from "./app/components/new-shop/NewShopScreen";
-import NewShopActionSheet from "./app/components/new-shop/NewShopActionSheet";
-import { ActionSheetProvider } from "@expo/react-native-action-sheet";
+import { OverflowMenuProvider, Item } from "react-navigation-header-buttons";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
 
+import { CreateUpdateMealModal } from "./app/components/meals/CreateUpdateMealModal";
+import EditActionSheet from "./app/components/meals/EditActionSheet";
+import MealDetailScreen from "./app/components/meals/MealDetailScreen";
+import MealsScreen from "./app/components/meals/MealsScreen";
 import ManualShopModal from "./app/components/new-shop/ManualShopModal";
 import ShuffleShopModal from "./app/components/new-shop/ShuffleShopModal";
-import { CreateUpdateMealModal } from "./app/components/meals/CreateUpdateMealModal";
-import { OverflowMenuProvider, Item } from "react-navigation-header-buttons";
-import EditActionSheet from "./app/components/meals/EditActionSheet";
 import EditShopActionSheet from "./app/components/shopping-list/EditShopActionSheet";
-
 import { NewShopProvider, NewShopContext } from "./app/globals/NewShopContext";
+import store, { persistor } from "./app/state/persistor";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -79,8 +78,6 @@ const MealsStack = () => {
 };
 
 const ShoppingListsStack = () => {
-    const onEdit = (shop) => {};
-
     return (
         <Stack.Navigator>
             <Stack.Screen
@@ -91,7 +88,7 @@ const ShoppingListsStack = () => {
                 name="ShoppingListDetail"
                 component={ShoppingListDetailScreen}
                 options={{
-                    headerRight: () => <EditShopActionSheet onEdit={onEdit} />,
+                    headerRight: () => <EditShopActionSheet />,
                 }}
             />
         </Stack.Navigator>

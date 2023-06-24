@@ -1,9 +1,10 @@
 import * as React from "react";
 import { SafeAreaView, ScrollView, Text } from "react-native";
-import { connect } from "react-redux";
-import { selectShopById } from "../../state/reducers/shopReducer";
+import { connect, useSelector } from "react-redux";
+
+import EditShopModal from "./EditShopModal";
 import { selectMeals } from "../../state/reducers/mealReducer";
-import { useSelector } from "react-redux";
+import { selectShopById } from "../../state/reducers/shopReducer";
 
 function ShoppingListDetailScreen({ route, navigation }) {
     const { id } = route.params.item;
@@ -25,6 +26,7 @@ function ShoppingListDetailScreen({ route, navigation }) {
                     <Text key={ingredient}>{ingredient}</Text>
                 ))}
             </ScrollView>
+            <EditShopModal />
         </SafeAreaView>
     );
 }

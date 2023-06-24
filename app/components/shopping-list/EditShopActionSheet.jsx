@@ -1,13 +1,17 @@
-import React from "react";
-import { TouchableOpacity, Text } from "react-native";
 import { useActionSheet } from "@expo/react-native-action-sheet";
+import { useRoute, useNavigation } from "@react-navigation/native";
+import React, { useContext } from "react";
+import { TouchableOpacity, Text } from "react-native";
 import { Item } from "react-navigation-header-buttons";
 import { useDispatch } from "react-redux";
-import { deleteShop } from "../../state/reducers/shopReducer";
-import { useRoute, useNavigation } from "@react-navigation/native";
 
-export default function EditShopActionSheet({ onEdit }) {
+import { NewShopContext } from "../../globals/NewShopContext";
+import { deleteShop } from "../../state/reducers/shopReducer";
+
+export default function EditShopActionSheet() {
     const { showActionSheetWithOptions } = useActionSheet();
+    const { setEditShopModalVisible } = useContext(NewShopContext);
+
     const dispatch = useDispatch();
     const route = useRoute();
     const navigation = useNavigation();
@@ -26,14 +30,11 @@ export default function EditShopActionSheet({ onEdit }) {
             (buttonIndex) => {
                 switch (buttonIndex) {
                     case 0:
-                        onEdit(route.params);
+                        setEditShopModalVisible(true);
                         break;
                     case 1:
                         navigation.goBack();
                         dispatch(deleteShop(route.params.item.id));
-                        break;
-                    case 2:
-                        onEdit(false);
                         break;
                 }
             }

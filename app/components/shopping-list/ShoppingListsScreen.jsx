@@ -1,5 +1,5 @@
-import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
+import * as React from "react";
 import {
     Pressable,
     SafeAreaView,
@@ -9,10 +9,11 @@ import {
     StyleSheet,
     Button,
 } from "react-native";
-import ListItem from "../../globals/ListItem";
-import Listing from "./Listing";
-import { selectMeals } from "../../state/reducers/mealReducer";
 import { useSelector } from "react-redux";
+
+import Listing from "./Listing";
+import ListItem from "../../globals/ListItem";
+import { selectMeals } from "../../state/reducers/mealReducer";
 
 /**
  * Shopping Lists Screen
@@ -27,12 +28,12 @@ function ShoppingListsScreen({ navigation }) {
 
     return (
         <SafeAreaView style={styles.container}>
-            {meals.length > 6 ? (
+            {meals.length > 7 ? (
                 <Listing />
             ) : (
                 <>
                     <Text>Not Enough Meals</Text>
-                    <Text>Add at least 7 meals before creating Shops</Text>
+                    <Text>Add at least 8 meals before creating Shops</Text>
                     <Button title="Go to Meals" onPress={goToMeals} />
                 </>
             )}

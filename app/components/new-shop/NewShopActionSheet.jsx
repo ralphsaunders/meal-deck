@@ -1,11 +1,12 @@
+import { useActionSheet } from "@expo/react-native-action-sheet";
+import { useNavigation } from "@react-navigation/native";
 import React, { useContext } from "react";
 import { TouchableOpacity, Text } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { useActionSheet } from "@expo/react-native-action-sheet";
+import { useSelector } from "react-redux";
+
 import { NewShopContext } from "../../globals/NewShopContext";
 import { persistor } from "../../state/persistor";
 import { selectMeals } from "../../state/reducers/mealReducer";
-import { useSelector } from "react-redux";
 
 function NewShopActionSheet({ DisplayComponent = null }) {
     const meals = useSelector((state) => selectMeals(state));
@@ -41,20 +42,22 @@ function NewShopActionSheet({ DisplayComponent = null }) {
     };
 
     const handlePress = () => {
-        if (meals.length > 6) {
+        if (meals.length > 7) {
             const options = [
                 "Add Meal",
                 "Shop Chef's Choice",
                 "Shop Your Picks",
-                "Purge Shops",
+                "Purge DB",
                 "Cancel",
             ];
+            const destructiveButtonIndex = 3;
             const cancelButtonIndex = 4;
 
             showActionSheetWithOptions(
                 {
                     options,
                     cancelButtonIndex,
+                    destructiveButtonIndex,
                 },
                 allOptions
             );

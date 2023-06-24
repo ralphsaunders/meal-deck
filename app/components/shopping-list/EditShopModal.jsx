@@ -1,5 +1,5 @@
-import { useNavigation } from "@react-navigation/native";
-import React, { useState, useContext } from "react";
+import { useRoute } from "@react-navigation/native";
+import React, { useState, useContext, useEffect } from "react";
 import {
     TouchableOpacity,
     Text,
@@ -8,63 +8,56 @@ import {
     StyleSheet,
     FlatList,
 } from "react-native";
-import { connect, useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-import { pickRandom } from "../../../helpers/pick-random/PickRandom";
 import { NewShopContext } from "../../globals/NewShopContext";
 import { selectMeals } from "../../state/reducers/mealReducer";
-import { createShop } from "../../state/reducers/shopReducer";
+import { updateShop, selectShopById } from "../../state/reducers/shopReducer";
 
-function ShuffleShopModal() {
-    const navigation = useNavigation();
+function EditShopModal() {
     const dispatch = useDispatch();
-    const { autoModalVisible, setAutoModalVisible } =
+    const route = useRoute();
+    const { editShopModalVisible, setEditShopModalVisible } =
         useContext(NewShopContext);
-    const meals = useSelector((state) => selectMeals(state));
 
-    const randomMeals = pickRandom(meals, 7);
-    const [selectedMeals, setSelectedMeals] = useState(randomMeals);
+    const meals = useSelector((state) => selectMeals(state));
+    const shop = useSelector((state) =>
+        selectShopById(state, route.params.item.id)
+    );
+
+    const [selectedMeals, setSelectedMeals] = useState([...shop.meals]);
 
     const onClose = () => {
-        setAutoModalVisible(false);
+        setEditShopModalVisible(false);
     };
 
-    /**
-     * Swap tapped meal with another meal from the store, avoiding any meals
-     * that are currently in the list.
-     */
-    const swap = (item) => {
-        const exclude = [...selectedMeals.map((meal) => meal.id)];
-
-        const remainingOptions = meals.filter(
-            (meal) => !exclude.includes(meal.id)
-        );
-
-        console.log("remaining", remainingOptions.length);
-        const swapItem = pickRandom(remainingOptions, 1)[0];
-        const swapIndex = selectedMeals.findIndex(
-            (meal) => meal.id === item.id
-        );
-
-        const newSelection = [...selectedMeals];
-        newSelection[swapIndex] = swapItem;
-
-        setSelectedMeals(newSelection);
+    const onPress = (item) => {
+        const pressedItem = selectedMeals.indexOf(item.id);
+        const copySelection = [...selectedMeals];
+        if (pressedItem > -1) {
+            // deselection
+            copySelection.splice(pressedItem, 1);
+        } else {
+            // new selection
+            copySelection.push(item.id);
+        }
+        setSelectedMeals(copySelection);
     };
 
     const onSave = () => {
-        const newShop = [...selectedMeals].map((meal) => meal.id);
-        dispatch(createShop(newShop));
-
-        // Close modal
-        setAutoModalVisible(false);
-
-        //navigation.navigate('ShoppingListDetail', { item: { id: newShop.id } });
+        const updatedShop = {
+            id: shop.id,
+            changes: {
+                meals: selectedMeals,
+            },
+        };
+        dispatch(updateShop(updatedShop));
+        setEditShopModalVisible(false);
     };
 
     return (
         <Modal
-            visible={autoModalVisible}
+            visible={editShopModalVisible}
             animationType="slide"
             presentationStyle="pageSheet"
         >
@@ -76,18 +69,23 @@ function ShuffleShopModal() {
                     >
                         <Text style={styles.modalCloseButtonText}>Close</Text>
                     </TouchableOpacity>
+
                     <TouchableOpacity onPress={onSave}>
                         <Text style={styles.modalCloseButtonText}>Save</Text>
                     </TouchableOpacity>
 
-                    <Text style={styles.modalTitle}>Chef&apos;s Choice</Text>
+                    <Text style={styles.modalTitle}>Edit Shop</Text>
 
+                    <Text style={styles.modalTitle}>Meals</Text>
                     <FlatList
-                        data={selectedMeals}
+                        data={meals}
                         keyExtractor={(item) => item.id}
                         renderItem={({ item }) => (
-                            <TouchableOpacity onPress={() => swap(item)}>
-                                <Text>{item.name}</Text>
+                            <TouchableOpacity onPress={() => onPress(item)}>
+                                <Text>
+                                    {selectedMeals.includes(item.id) && <>*</>}
+                                    {item.name}
+                                </Text>
                             </TouchableOpacity>
                         )}
                     />
@@ -123,4 +121,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ShuffleShopModal;
+export default EditShopModal;
