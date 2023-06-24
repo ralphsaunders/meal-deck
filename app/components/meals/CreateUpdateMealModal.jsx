@@ -14,7 +14,6 @@ import {
     KeyboardAvoidingView,
 } from "react-native";
 import "react-native-get-random-values"; // before uuid
-import { v4 as uuidv4 } from "uuid";
 import { useDispatch } from "react-redux";
 import { createMeal, updateMeal } from "../../state/reducers/mealReducer";
 import { NewShopContext } from "../../globals/NewShopContext";
@@ -85,7 +84,6 @@ export function CreateUpdateMealModal({ meal = false }) {
         } else {
             // Create a new meal
             const newMeal = {
-                id: uuidv4(),
                 name,
                 ingredients,
             };

@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import { NewShopContext } from "../../globals/NewShopContext";
 import { connect } from "react-redux";
-import { v4 as uuidv4 } from "uuid";
 import { useDispatch } from "react-redux";
 import { createShop } from "../../state/reducers/shopReducer";
 
