@@ -39,15 +39,10 @@ function ManualShopModal({ meals }) {
     };
 
     const onSave = () => {
-        const newShop = {
-            id: uuidv4(),
-            timestamp: Math.floor(Date.now() / 1000),
-            meals: [...selectedMeals],
-        };
-
+        const newShop = [...selectedMeals]
+            .filter((meal) => meal.selected)
+            .map((meal) => meal.id);
         dispatch(createShop(newShop));
-
-        // Close modal
         setManualModalVisible(false);
     };
 

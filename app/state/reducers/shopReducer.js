@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { v4 as uuidv4 } from "uuid";
 
 const initialState = {
     shops: [],
@@ -8,14 +9,36 @@ const shopSlice = createSlice({
     name: "shop",
     initialState,
     reducers: {
-        createShop: (state, action) => {
-            const shop = action.payload;
-            // Retain meal IDs only
-            shop.meals = shop.meals
-                .filter((meal) => meal.selected)
-                .map((meal) => meal.id);
-            state.shops.push(shop);
-            state.shops.sort((a, b) => b.timestamp - a.timestamp);
+        /**
+         * Create Shop
+         *
+         * Create a new shop by passing a list of meal IDs.
+         *
+         * Example usage:
+         *
+         *      dispatch(createShop([
+         *           "meal-uuid-1",
+         *           "meal-uuid-2",
+         *      ]))
+         */
+        createShop: {
+            reducer: (state, action) => {
+                const newShop = action.payload;
+                state.shops.push(newShop);
+                state.shops.sort((a, b) => b.timestamp - a.timestamp);
+            },
+            prepare: (meals) => {
+                const id = uuidv4();
+                const timestamp = Math.floor(Date.now() / 1000);
+
+                return {
+                    payload: {
+                        id,
+                        timestamp,
+                        meals,
+                    },
+                };
+            },
         },
         updateShop: (state, action) => {
             const { id } = action.payload;
