@@ -1,4 +1,5 @@
-import * as React from "react";
+import { useNavigation } from "@react-navigation/native";
+import React, { useContext } from "react";
 import {
     StyleSheet,
     Text,
@@ -6,37 +7,39 @@ import {
     SafeAreaView,
     FlatList,
     StatusBar,
+    Button,
 } from "react-native";
-import ListItem from "../../globals/ListItem";
-import { useNavigation } from "@react-navigation/native";
-import { selectMeals } from "../../state/reducers/mealReducer";
 import { useSelector } from "react-redux";
+
+import Listing from "./Listing";
+import ListItem from "../../globals/ListItem";
+import { NewShopContext } from "../../globals/NewShopContext";
+import { selectMeals } from "../../state/reducers/mealReducer";
 
 /**
  * Meal List Screen
- * @returns {string} <MealListScreen /> component
+ * @returns {string} <MealsScreen /> component
  */
 function MealsScreen() {
+    const { setMealModalVisible } = useContext(NewShopContext);
     const meals = useSelector((state) => selectMeals(state));
-    const navigation = useNavigation();
 
-    const onPress = (item) => {
-        navigation.navigate("MealDetail", {
-            ...item,
-        });
+    const onNewMeal = () => {
+        setMealModalVisible(true);
     };
 
     return (
         <SafeAreaView style={styles.container}>
-            <FlatList
-                data={meals}
-                keyExtractor={(item) => item.id}
-                renderItem={(props) => (
-                    <TouchableOpacity onPress={() => onPress(props.item)}>
-                        <ListItem {...props} />
-                    </TouchableOpacity>
-                )}
-            />
+            {meals.length > 0 ? (
+                <Listing />
+            ) : (
+                <>
+                    <Text>No Meals</Text>
+                    <Text>You haven't created any meals yet</Text>
+
+                    <Button title="New Meal" onPress={onNewMeal} />
+                </>
+            )}
         </SafeAreaView>
     );
 }
@@ -46,6 +49,8 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingTop: StatusBar.currentHeight,
         marginHorizontal: 16,
+        alignItems: "center",
+        justifyContent: "center",
     },
     header: {
         fontSize: 32,

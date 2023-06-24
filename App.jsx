@@ -1,7 +1,3 @@
-import ShoppingListsScreen from "./app/components/shopping-list/ShoppingListsScreen";
-import ShoppingListDetailScreen from "./app/components/shopping-list/ShoppingListDetailScreen";
-import { NewShopScreen } from "./app/components/new-shop/NewShopScreen";
-import NewShopActionSheet from "./app/components/new-shop/NewShopActionSheet";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer, useRoute } from "@react-navigation/native";
@@ -16,7 +12,7 @@ import {
     Button,
 } from "react-native";
 import { OverflowMenuProvider, Item } from "react-navigation-header-buttons";
-import { Provider } from "react-redux";
+import { Provider, useSelector } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 
 import { CreateUpdateMealModal } from "./app/components/meals/CreateUpdateMealModal";
@@ -24,10 +20,15 @@ import EditActionSheet from "./app/components/meals/EditActionSheet";
 import MealDetailScreen from "./app/components/meals/MealDetailScreen";
 import MealsScreen from "./app/components/meals/MealsScreen";
 import ManualShopModal from "./app/components/new-shop/ManualShopModal";
+import NewShopActionSheet from "./app/components/new-shop/NewShopActionSheet";
+import { NewShopScreen } from "./app/components/new-shop/NewShopScreen";
 import ShuffleShopModal from "./app/components/new-shop/ShuffleShopModal";
 import EditShopActionSheet from "./app/components/shopping-list/EditShopActionSheet";
+import ShoppingListDetailScreen from "./app/components/shopping-list/ShoppingListDetailScreen";
+import ShoppingListsScreen from "./app/components/shopping-list/ShoppingListsScreen";
 import { NewShopProvider, NewShopContext } from "./app/globals/NewShopContext";
 import store, { persistor } from "./app/state/persistor";
+import { selectMeals } from "./app/state/reducers/mealReducer";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -103,6 +104,8 @@ function App() {
         setManualModalVisible,
     } = useContext(NewShopContext);
 
+    const meals = useSelector((state) => selectMeals(state));
+
     return (
         <View style={styles.container}>
             <NavigationContainer>
@@ -137,8 +140,12 @@ function App() {
                         />
                     </Tab.Navigator>
                 </OverflowMenuProvider>
-                <ManualShopModal />
-                <ShuffleShopModal />
+                {meals > 7 && (
+                    <>
+                        <ManualShopModal />
+                        <ShuffleShopModal />
+                    </>
+                )}
             </NavigationContainer>
         </View>
     );
