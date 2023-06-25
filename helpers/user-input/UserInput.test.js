@@ -119,4 +119,15 @@ describe("Ingredients processor", () => {
         expect(list[0].quantity).toBe(null);
         expect(list[0].ingredient).toBe("bananas");
     });
+
+    it("provides string formatting help", () => {
+        const input = "1 tin tomatoes\n3 tbsp peanut butter\nbananas\n5 figs";
+        const list = processIngredients(input);
+
+        expect(list.length).toBe(4);
+        expect(list[0].display).toBe("1 Tin Tomatoes");
+        expect(list[1].display).toBe("3 tablespoon Peanut Butter");
+        expect(list[2].display).toBe("Bananas");
+        expect(list[3].display).toBe("5 Figs");
+    });
 });

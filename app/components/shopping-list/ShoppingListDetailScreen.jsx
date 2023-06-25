@@ -19,8 +19,6 @@ function ShoppingListDetailScreen({ route, navigation }) {
 
     const processedIngredients = processIngredients(ingredients.join("\n"));
 
-    console.log(processedIngredients);
-
     return (
         <SafeAreaView>
             <ScrollView>
@@ -30,8 +28,8 @@ function ShoppingListDetailScreen({ route, navigation }) {
                 ))}
 
                 <Text>Ingredients</Text>
-                {ingredients.map((ingredient) => (
-                    <Text key={ingredient}>{ingredient}</Text>
+                {processedIngredients.map((i) => (
+                    <Text key={i.ingredient}>{i.display}</Text>
                 ))}
             </ScrollView>
             <EditShopModal />

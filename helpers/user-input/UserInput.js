@@ -85,7 +85,27 @@ export function processIngredients(ingredients) {
                 }
             }
             return acc;
-        }, []);
+        }, [])
+        .map((i) => formatForDisplay(i));
+}
+
+function formatForDisplay(i) {
+    const copy = { ...i };
+
+    const titleCaseWord = (word) => {
+        return word.charAt(0).toUpperCase() + word.substr(1).toLowerCase();
+    };
+
+    const titleCaseSentance = (ingredient) => {
+        return ingredient.split(" ").map(titleCaseWord).join(" ");
+    };
+
+    copy.display = `${i.quantity ?? ""} ${i.unit ?? ""} ${titleCaseSentance(
+        i.ingredient
+    )}`
+        .replace(/\s+/g, " ")
+        .trim();
+    return copy;
 }
 
 /**
