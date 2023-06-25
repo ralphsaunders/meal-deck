@@ -1,8 +1,9 @@
-import React from "react";
 import PropTypes from "prop-types";
+import React from "react";
 import { TouchableOpacity, Text, View, StyleSheet } from "react-native";
-import { deleteMeal } from "../state/reducers/mealReducer";
 import { useDispatch } from "react-redux";
+
+import { deleteMeal } from "../state/reducers/mealReducer";
 
 /**
  *
@@ -26,12 +27,13 @@ ListItem.propTypes = {
 
 const styles = StyleSheet.create({
     item: {
-        backgroundColor: "#f9c2ff",
-        padding: 20,
-        marginVertical: 8,
+        paddingVertical: 10,
+        paddingHorizontal: 10,
+        borderBottomColor: "#E9ECEF",
+        borderBottomWidth: 1,
     },
     title: {
-        fontSize: 24,
+        fontSize: 14,
     },
 });
 

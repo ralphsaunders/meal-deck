@@ -1,16 +1,17 @@
+import { useNavigation } from "@react-navigation/native";
 import * as React from "react";
 import {
     StyleSheet,
     Text,
     TouchableOpacity,
-    SafeAreaView,
+    View,
     FlatList,
     StatusBar,
 } from "react-native";
-import ListItem from "../../globals/ListItem";
-import { useNavigation } from "@react-navigation/native";
-import { selectMeals } from "../../state/reducers/mealReducer";
 import { useSelector } from "react-redux";
+
+import ListItem from "../../globals/ListItem";
+import { selectMeals } from "../../state/reducers/mealReducer";
 
 /**
  * Meal List Screen
@@ -27,17 +28,18 @@ function MealsScreen() {
     };
 
     return (
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
             <FlatList
                 data={meals}
                 keyExtractor={(item) => item.id}
+                style={styles.listing}
                 renderItem={(props) => (
                     <TouchableOpacity onPress={() => onPress(props.item)}>
                         <ListItem {...props} />
                     </TouchableOpacity>
                 )}
             />
-        </SafeAreaView>
+        </View>
     );
 }
 
@@ -46,10 +48,17 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingTop: StatusBar.currentHeight,
         marginHorizontal: 16,
+        width: "100%",
+        marginTop: 20,
     },
     header: {
         fontSize: 32,
         backgroundColor: "#fff",
+    },
+    listing: {
+        backgroundColor: "#fff",
+        borderTopLeftRadius: 8,
+        borderTopRightRadius: 8,
     },
 });
 

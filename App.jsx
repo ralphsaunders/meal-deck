@@ -50,7 +50,7 @@ const MealsStack = () => {
     };
 
     return (
-        <View style={styles.container}>
+        <>
             <Stack.Navigator>
                 <Stack.Screen
                     name="Meals"
@@ -74,7 +74,7 @@ const MealsStack = () => {
                 setVisible={setMealModalVisible}
                 meal={meal}
             />
-        </View>
+        </>
     );
 };
 
@@ -180,28 +180,5 @@ const styles = StyleSheet.create({
     },
     tabBarButtonText: {
         fontSize: 24,
-    },
-    modalContent: {
-        backgroundColor: "white",
-        borderTopLeftRadius: 10,
-        borderTopRightRadius: 10,
-        paddingTop: 20,
-        paddingHorizontal: 20,
-        paddingBottom: 40,
-    },
-    modalTitle: {
-        fontSize: 20,
-        fontWeight: "bold",
-        marginBottom: 10,
-    },
-    modalCloseButton: {
-        alignSelf: "flex-start",
-        paddingVertical: 8,
-        paddingHorizontal: 0,
-        marginBottom: 10,
-    },
-    modalCloseButtonText: {
-        fontSize: 16,
-        color: "#007AFF", // iOS blue color
     },
 });
