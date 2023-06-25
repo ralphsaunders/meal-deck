@@ -52,5 +52,11 @@
         "quantity": 0.5,
         "unit": "teaspoon",
         "ingredient": "paprika"
+    },
+    {
+        "input": "ice cream",
+        "quantity": null,
+        "unit": null,
+        "ingredient": "ice cream"
     }
 ]

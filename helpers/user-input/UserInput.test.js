@@ -92,4 +92,22 @@ describe("Ingredients processor", () => {
         expect(list.length).toBe(1);
         expect(list[0].quantity).toBe(9);
     });
+
+    it("deduplicates plural ingredients", () => {
+        const input = "2 Bananas\n1 Banana";
+        const list = processIngredients(input);
+
+        expect(list.length).toBe(1);
+        expect(list[0].quantity).toBe(3);
+        expect(list[0].ingredient).toBe("bananas");
+    });
+
+    it("deduplicates ingredients with missing quantities", () => {
+        const input = "2 Bananas\nBanana";
+        const list = processIngredients(input);
+
+        expect(list.length).toBe(1);
+        expect(list[0].quantity).toBe(3);
+        expect(list[0].ingredient).toBe("bananas");
+    });
 });

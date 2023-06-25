@@ -3,7 +3,10 @@ import { SafeAreaView, ScrollView, Text } from "react-native";
 import { connect, useSelector } from "react-redux";
 
 import EditShopModal from "./EditShopModal";
-import { tokenizeInput } from "../../../helpers/user-input/UserInput";
+import {
+    tokenizeInput,
+    processIngredients,
+} from "../../../helpers/user-input/UserInput";
 import { selectMeals } from "../../state/reducers/mealReducer";
 import { selectShopById } from "../../state/reducers/shopReducer";
 
@@ -14,17 +17,7 @@ function ShoppingListDetailScreen({ route, navigation }) {
     const mealsOnList = meals.filter((meal) => shop.meals.includes(meal.id));
     const ingredients = mealsOnList.map((meal) => meal.ingredients);
 
-    const processedIngredients = ingredients
-        .join("\n")
-        .split("\n")
-        .map((ingredient) => tokenizeInput(ingredient))
-        .reduce((acc, cur) => {
-            if (!acc.includes((i) => i.ingredient === cur.ingredient)) {
-                // if ingredient not present in accumulator
-                acc.push(cur);
-            }
-            return acc;
-        }, []);
+    const processedIngredients = processIngredients(ingredients.join("\n"));
 
     console.log(processedIngredients);
 

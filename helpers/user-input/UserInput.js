@@ -1,3 +1,5 @@
+import pluralize from "pluralize";
+
 import { units, prepositions, adjectives } from "./supported-tokens";
 
 /**
@@ -36,20 +38,22 @@ export function tokenizeInput(input) {
         quantity = quantity ? parseInt(quantity[0], 10) : quantity;
     }
 
-    const findNotDigits = new RegExp(/[^\d]\D+/);
-    const ingredient = sanitisedInput.match(findNotDigits);
-
-    const findUnit = new RegExp(`(${units.join("|")})e?s?\\s`);
+    const findUnit = new RegExp(`(${units.join("|")})\\s`);
     let unit = sanitisedInput.match(findUnit);
     if (unit) {
         unit = unit.reduce((a, b) => (a.length <= b.length ? a : b));
         unit = standardiseUnit(unit);
+        unit = pluralize.singular(unit);
     }
+
+    const findNotDigits = new RegExp(/[^\d]\D+/);
+    let ingredient = sanitisedInput.match(findNotDigits);
+    ingredient = ingredient[0].replace(findUnit, "").trim();
 
     const output = {
         quantity,
         unit,
-        ingredient: ingredient[0].replace(findUnit, "").trim(),
+        ingredient,
     };
 
     return output;
@@ -60,7 +64,11 @@ export function processIngredients(ingredients) {
         .split("\n")
         .map((i) => tokenizeInput(i))
         .reduce((acc, cur) => {
-            const index = acc.findIndex((a) => a.ingredient === cur.ingredient);
+            const b = pluralize.singular(cur.ingredient);
+            const index = acc.findIndex((accumulated) => {
+                const a = pluralize.singular(accumulated.ingredient);
+                return a === b;
+            });
 
             if (index === -1) {
                 // if ingredient not present in accumulator
@@ -68,6 +76,7 @@ export function processIngredients(ingredients) {
             } else {
                 // sum quantities of matching ingredients
                 acc[index].quantity += cur?.quantity ?? 1;
+                acc[index].ingredient = pluralize.plural(b);
             }
             return acc;
         }, []);
