@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import {
     TouchableOpacity,
+    Pressable,
     Text,
     Modal,
     View,
@@ -15,14 +16,16 @@ import {
 } from "react-native";
 import "react-native-get-random-values"; // before uuid
 import { useDispatch } from "react-redux";
-import { createMeal, updateMeal } from "../../state/reducers/mealReducer";
+import Feather from "@expo/vector-icons/Feather";
+
 import { NewShopContext } from "../../globals/NewShopContext";
+import { createMeal, updateMeal } from "../../state/reducers/mealReducer";
 
 export function CreateUpdateMealModal({ meal = false }) {
     const dispatch = useDispatch();
     const { mealModalVisible, setMealModalVisible } =
         useContext(NewShopContext);
-    const [name, setName] = useState(meal ? meal.name : "Add Meal");
+    const [name, setName] = useState(meal ? meal.name : "New Meal");
     const [ingredients, setIngredients] = useState(
         meal ? meal.ingredients : ""
     );
@@ -30,7 +33,7 @@ export function CreateUpdateMealModal({ meal = false }) {
     // When meal prop changes
     useEffect(() => {
         // Set form state to requested meal
-        setName(meal.name || "Add Meal");
+        setName(meal.name || "New Meal");
         setIngredients(meal.ingredients || "");
     }, [meal]);
 
@@ -107,38 +110,43 @@ export function CreateUpdateMealModal({ meal = false }) {
             <KeyboardAvoidingView
                 behavior={Platform.OS === "ios" ? "padding" : "height"}
                 style={styles.container}
+                keyboardVerticalOffset={40}
             >
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                    <ScrollView style={styles.modalContainer}>
-                        <View style={styles.modalContent}>
-                            <TouchableOpacity
-                                onPress={onClose}
-                                style={styles.modalCloseButton}
+                    <View style={styles.inner}>
+                        <TouchableOpacity onPress={onClose}>
+                            <Text style={styles.secondaryBtn}>Close</Text>
+                        </TouchableOpacity>
+
+                        <View style={styles.header}>
+                            <Text
+                                style={styles.headerText}
+                                adjustsFontSizeToFit={true}
+                                numberOfLines={2}
                             >
-                                <Text style={styles.modalCloseButtonText}>
-                                    Close
-                                </Text>
-                            </TouchableOpacity>
+                                {name}
+                            </Text>
+                            <Pressable onPress={onSave}>
+                                <Feather
+                                    name="plus-circle"
+                                    size={40}
+                                    color="#3F37C9"
+                                />
+                            </Pressable>
+                        </View>
 
-                            <TouchableOpacity
-                                onPress={onSave}
-                                style={styles.modalDoneButton}
-                            >
-                                <Text style={styles.modalCloseButtonText}>
-                                    Save
-                                </Text>
-                            </TouchableOpacity>
-
-                            <Text style={styles.modalTitle}>{name}</Text>
-
-                            <Text>Name:</Text>
+                        <View style={styles.formRow}>
+                            <Text style={styles.formLabel}>Name:</Text>
                             <TextInput
+                                style={styles.formInput}
                                 value={name}
                                 onChangeText={setName}
                                 returnKeyType="next"
                                 clearTextOnFocus
+                                numberOfLines={1}
                                 inputMode="text"
                                 placeholder="Enter a name"
+                                maxLength={70}
                                 onSubmitEditing={() =>
                                     ingredientsRef.current.focus()
                                 }
@@ -146,22 +154,22 @@ export function CreateUpdateMealModal({ meal = false }) {
                                     handleKeyPress(e, nameRef, ingredientsRef)
                                 }
                                 ref={nameRef}
-                                autoFocus={meal?.id ? false : true}
-                            />
-
-                            <TextInput
-                                value={ingredients}
-                                numberOfLines={8}
-                                placeholder={ingredientsPlaceholder}
-                                ref={ingredientsRef}
-                                onChangeText={setIngredients}
-                                keyboardType="default"
-                                multiline={true}
-                                blurOnSubmit={false}
-                                style={styles.ingredientInput}
+                                autoFocus={!meal?.id}
                             />
                         </View>
-                    </ScrollView>
+
+                        <TextInput
+                            value={ingredients}
+                            numberOfLines={8}
+                            placeholder={ingredientsPlaceholder}
+                            ref={ingredientsRef}
+                            onChangeText={setIngredients}
+                            keyboardType="default"
+                            multiline={true}
+                            blurOnSubmit={false}
+                            style={styles.ingredientInput}
+                        />
+                    </View>
                 </TouchableWithoutFeedback>
             </KeyboardAvoidingView>
         </Modal>
@@ -172,37 +180,47 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-    modalContent: {
-        backgroundColor: "white",
-        borderTopLeftRadius: 10,
-        borderTopRightRadius: 10,
-        paddingTop: 20,
-        paddingHorizontal: 20,
-        paddingBottom: 40,
-    },
-    modalTitle: {
-        fontSize: 32,
-        fontWeight: "bold",
-        marginBottom: 10,
-    },
-    modalDoneButton: {
-        alignSelf: "flex-end",
-        paddingVertical: 8,
-        paddingHorizontal: 0,
-        marginBottom: 10,
-    },
-    modalCloseButton: {
-        alignSelf: "flex-start",
-        paddingVertical: 8,
-        paddingHorizontal: 0,
-        marginBottom: 10,
-    },
-    modalCloseButtonText: {
-        fontSize: 16,
-        color: "#007AFF", // iOS blue color
+    inner: {
+        padding: 24,
+        flex: 1,
+        justifyContent: "flex-start",
     },
     ingredientInput: {
-        borderWidth: 3,
-        borderColor: "#000",
+        flex: 1,
+    },
+    header: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        marginBottom: 10,
+    },
+    headerText: {
+        fontSize: 32,
+        fontWeight: "bold",
+        flex: 1,
+        marginRight: 10,
+        color: "#212529",
+    },
+    primaryBtn: {
+        color: "#3F37C9",
+        fontWeight: "bold",
+        fontSize: 14,
+    },
+    secondaryBtn: {
+        color: "#4361EE",
+        fontSize: 14,
+    },
+    formRow: {
+        flexDirection: "row",
+        paddingBottom: 4,
+        marginBottom: 10,
+        overflow: "hidden",
+        borderBottomColor: "#E9ECEF",
+        borderBottomWidth: 1,
+    },
+    formLabel: {
+        marginRight: 4,
+    },
+    formInput: {
+        flex: 1,
     },
 });
