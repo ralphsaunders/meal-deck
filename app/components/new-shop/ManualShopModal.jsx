@@ -7,12 +7,11 @@ import {
     StyleSheet,
     FlatList,
 } from "react-native";
+import { connect, useDispatch, useSelector } from "react-redux";
+
 import { NewShopContext } from "../../globals/NewShopContext";
-import { connect } from "react-redux";
-import { useDispatch } from "react-redux";
-import { createShop } from "../../state/reducers/shopReducer";
 import { selectMeals } from "../../state/reducers/mealReducer";
-import { useSelector } from "react-redux";
+import { createShop } from "../../state/reducers/shopReducer";
 
 function ManualShopModal() {
     const dispatch = useDispatch();
@@ -53,6 +52,7 @@ function ManualShopModal() {
             visible={manualModalVisible}
             animationType="slide"
             presentationStyle="pageSheet"
+            onRequestClose={onClose}
         >
             <View style={styles.modalContainer}>
                 <View style={styles.modalContent}>

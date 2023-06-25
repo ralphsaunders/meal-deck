@@ -67,6 +67,7 @@ function ShuffleShopModal() {
             visible={autoModalVisible}
             animationType="slide"
             presentationStyle="pageSheet"
+            onRequestClose={onClose}
         >
             <View style={styles.modalContainer}>
                 <View style={styles.modalContent}>

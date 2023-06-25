@@ -102,6 +102,7 @@ export function CreateUpdateMealModal({ meal = false }) {
             visible={mealModalVisible}
             animationType="slide"
             presentationStyle="pageSheet"
+            onRequestClose={onClose}
         >
             <KeyboardAvoidingView
                 behavior={Platform.OS === "ios" ? "padding" : "height"}
