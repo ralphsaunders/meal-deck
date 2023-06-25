@@ -110,4 +110,13 @@ describe("Ingredients processor", () => {
         expect(list[0].quantity).toBe(3);
         expect(list[0].ingredient).toBe("bananas");
     });
+
+    it("won't create quantities where there are none", () => {
+        const input = "Bananas\nBanana";
+        const list = processIngredients(input);
+
+        expect(list.length).toBe(1);
+        expect(list[0].quantity).toBe(null);
+        expect(list[0].ingredient).toBe("bananas");
+    });
 });

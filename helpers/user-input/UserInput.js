@@ -74,9 +74,15 @@ export function processIngredients(ingredients) {
                 // if ingredient not present in accumulator
                 acc.push(cur);
             } else {
-                // sum quantities of matching ingredients
-                acc[index].quantity += cur?.quantity ?? 1;
                 acc[index].ingredient = pluralize.plural(b);
+
+                // When both quantities are null, don't make up quantities
+                if (acc[index].quantity === null && cur.quantity === null) {
+                    return acc;
+                } else {
+                    // sum quantities of matching ingredients
+                    acc[index].quantity += cur?.quantity ?? 1;
+                }
             }
             return acc;
         }, []);
