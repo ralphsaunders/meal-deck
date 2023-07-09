@@ -1,4 +1,5 @@
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
+import Feather from "@expo/vector-icons/Feather";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer, useRoute } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -56,6 +57,8 @@ const MealsStack = () => {
                     name="Meals"
                     component={MealsScreen}
                     options={{
+                        headerTransparent: true,
+                        headerBlurEffect: "extraLight",
                         headerRight: () => (
                             <Item title="Add Meal" onPress={onAddMeal} />
                         ),
@@ -120,22 +123,60 @@ function App() {
                             name="MealsTab"
                             component={MealsStack}
                             options={{
-                                tabBarLabel: "Meals",
-                            }}
-                        />
-                        <Tab.Screen
-                            name="ShoppingListTab"
-                            component={ShoppingListsStack}
-                            options={{
-                                tabBarLabel: "Shopping Lists",
+                                tabBarShowLabel: false,
+                                tabBarAccessibilityLabel: "Meals",
+                                tabBarLabelStyle: {
+                                    color: "#6B749E",
+                                },
+                                tabBarIcon: () => (
+                                    <Feather
+                                        name="book-open"
+                                        size={32}
+                                        color="#404663"
+                                    />
+                                ),
                             }}
                         />
                         <Tab.Screen
                             name="New Shop"
                             component={NewShopScreen}
                             options={{
+                                tabBarShowLabel: false,
                                 tabBarLabel: "",
-                                tabBarButton: (props) => <NewShopActionSheet />,
+                                tabBarButton: (props) => (
+                                    <NewShopActionSheet
+                                        DisplayComponent={() => (
+                                            <Feather
+                                                name="plus-circle"
+                                                size={32}
+                                                color="#404663"
+                                                style={{
+                                                    textAlign: "center",
+                                                    flex: 1,
+                                                    marginTop: 2,
+                                                }}
+                                            />
+                                        )}
+                                    />
+                                ),
+                            }}
+                        />
+                        <Tab.Screen
+                            name="ShoppingListTab"
+                            component={ShoppingListsStack}
+                            options={{
+                                tabBarShowLabel: false,
+                                tabBarAccessibilityLabel: "Shopping Lists",
+                                tabBarLabelStyle: {
+                                    color: "#6B749E",
+                                },
+                                tabBarIcon: () => (
+                                    <Feather
+                                        name="check-circle"
+                                        size={32}
+                                        color="#404663"
+                                    />
+                                ),
                             }}
                         />
                     </Tab.Navigator>

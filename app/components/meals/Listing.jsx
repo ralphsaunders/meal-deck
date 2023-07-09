@@ -33,6 +33,7 @@ function MealsScreen() {
                 data={meals}
                 keyExtractor={(item) => item.id}
                 style={styles.listing}
+                showsVerticalScrollIndicator={false}
                 renderItem={(props) => (
                     <TouchableOpacity onPress={() => onPress(props.item)}>
                         <ListItem {...props} />
@@ -47,9 +48,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingTop: StatusBar.currentHeight,
-        marginHorizontal: 16,
         width: "100%",
-        marginTop: 20,
     },
     header: {
         fontSize: 32,
@@ -57,8 +56,10 @@ const styles = StyleSheet.create({
     },
     listing: {
         backgroundColor: "#fff",
-        borderTopLeftRadius: 8,
-        borderTopRightRadius: 8,
+        flexGrow: 0,
+        paddingHorizontal: 16,
+        paddingTop: 8,
+        paddingBottom: 16,
     },
 });
 

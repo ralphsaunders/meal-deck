@@ -1,10 +1,11 @@
+import { useHeaderHeight } from "@react-navigation/elements";
 import { useNavigation } from "@react-navigation/native";
 import React, { useContext } from "react";
 import {
     StyleSheet,
     Text,
     TouchableOpacity,
-    SafeAreaView,
+    View,
     FlatList,
     StatusBar,
     Button,
@@ -23,24 +24,24 @@ import { selectMeals } from "../../state/reducers/mealReducer";
 function MealsScreen() {
     const { setMealModalVisible } = useContext(NewShopContext);
     const meals = useSelector((state) => selectMeals(state));
+    const headerHeight = useHeaderHeight();
 
     const onNewMeal = () => {
         setMealModalVisible(true);
     };
 
     return (
-        <SafeAreaView style={styles.container}>
+        <View style={{ ...styles.container, marginTop: headerHeight }}>
             {meals.length > 0 ? (
                 <Listing />
             ) : (
                 <>
                     <Text>No Meals</Text>
                     <Text>You haven't created any meals yet</Text>
-
                     <Button title="New Meal" onPress={onNewMeal} />
                 </>
             )}
-        </SafeAreaView>
+        </View>
     );
 }
 
@@ -48,13 +49,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingTop: StatusBar.currentHeight,
-        marginHorizontal: 16,
         alignItems: "center",
         justifyContent: "center",
-    },
-    header: {
-        fontSize: 32,
-        backgroundColor: "#fff",
     },
 });
 
